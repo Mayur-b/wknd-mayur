@@ -1,0 +1,130 @@
+/*
+ * author block — WKND profile / byline
+ *
+ * Two presentations share one block:
+ *   - Default (a single author in its section) → compact left-aligned byline:
+ *     small circular avatar, name + role, social icons trailing on the row.
+ *     (e.g. an article author bio)
+ *   - `.author-profiles` (a section listing several authors) → centered profile
+ *     card: large circular avatar, serif name, small uppercase role, social
+ *     icons beneath. Cards flow into a responsive grid.
+ *     (e.g. the "Our Contributors" / "WKND Guides" listings)
+ *
+ * Values extracted from wknd.site computed styles — see
+ * migration-work/author-extracted.css. Do not replace with generic defaults.
+ */
+
+/* ---- Shared: byline layout (default, single author) ---- */
+.author {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 20px;
+}
+
+.author .author-avatar {
+  flex: 0 0 auto;
+  line-height: 0;
+}
+
+.author .author-avatar img,
+.author .author-avatar picture {
+  display: block;
+  width: 64px;
+  max-width: 100%;
+  aspect-ratio: 1;
+  border-radius: 50%;        /* source */
+  object-fit: cover;         /* source */
+}
+
+.author .author-info {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Name — identical typography in both presentations (source h3). */
+.author .author-name {
+  margin: 0 0 6px;                              /* source */
+  font-family: var(--heading-font-family);      /* Asar serif — source */
+  font-size: 24px;                              /* source */
+  font-weight: 400;                             /* source */
+  line-height: 36px;                            /* source */
+  text-transform: none;                         /* source */
+  color: var(--text-color);                     /* #202020 — source */
+}
+
+/* Role — byline variant (small, muted). */
+.author .author-role {
+  margin: 0;
+  font-family: var(--body-font-family);         /* Source Sans Pro — source */
+  font-size: 12px;                              /* source byline */
+  font-weight: 400;                             /* source byline */
+  line-height: 1.5;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;                    /* source */
+  color: #696969;                               /* source byline rgb(105,105,105) */
+}
+
+/* Social icons trail to the end of the byline row. */
+.author .social-links {
+  margin-left: auto;
+}
+
+/* ---- Profile-card presentation (multiple authors in a section) ---- */
+.author-profiles .author {
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  text-align: center;
+}
+
+.author-profiles .author .author-avatar img,
+.author-profiles .author .author-avatar picture {
+  width: 164px;              /* source */
+  margin: 7px 0;             /* source */
+}
+
+.author-profiles .author .author-info {
+  align-items: center;
+}
+
+/* Role — profile-card variant (source h5): larger, bolder, full-strength text. */
+.author-profiles .author .author-role {
+  margin: 0 0 3.5px;         /* source */
+  font-size: 14px;           /* source */
+  font-weight: 600;          /* source */
+  line-height: 21px;         /* source */
+  letter-spacing: normal;    /* source */
+  color: var(--text-color);  /* #202020 — source */
+}
+
+/* Social icons centred beneath the details, not trailing. */
+.author-profiles .author .social-links {
+  margin: 16px 0 0;
+}
+
+.author-profiles .author .social-links .social-links-list {
+  justify-content: center;
+}
+
+/* ---- Profile grid: cards flow across; default-content headings break rows ---- */
+.author-profiles .author-wrapper {
+  box-sizing: border-box;
+  display: inline-block;
+  vertical-align: top;
+  width: 100%;               /* mobile: one card per row */
+  margin: 0 0 32px;
+  padding: 0 14px;           /* source column gutter */
+}
+
+@media (width >= 600px) {
+  .author-profiles .author-wrapper {
+    width: 50%;              /* tablet: two-up */
+  }
+}
+
+@media (width >= 900px) {
+  .author-profiles .author-wrapper {
+    width: 25%;              /* desktop: four-up contributors / three-up guides */
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "variantName": "author",
+  "baseBlock": "author",
+  "version": "1.0.0",
+  "created": "2026-08-10T00:00:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://wknd.site/us/en/magazine/western-australia.html",
+    "originPage": "WKND magazine article page",
+    "blockPosition": "bottom"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "compact",
+    "purpose": "author-bio",
+    "imagePattern": "icon"
+  },
+  "contentPattern": {
+    "structure": "avatar image + name (heading) + role/title (text), optional social-links companion",
+    "buttonCount": 0,
+    "imageCount": 1
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "article/magazine bylines",
+      "author bio footers",
+      "contributor profiles"
+    ],
+    "notSuitableFor": [
+      "product cards",
+      "generic image + text grids (use cards)"
+    ]
+  },
+  "usage": {
+    "pagesUsing": ["/us/en/magazine/western-australia", "/us/en/about-us"],
+    "reuseCount": 2,
+    "lastUsed": "2026-08-10T00:00:00.000Z"
+  }
+}

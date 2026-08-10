@@ -1,0 +1,77 @@
+/* social-links — WKND social icon tiles.
+   Values extracted from wknd.site computed styles (.cmp-buildingblock--btn-list):
+   48x48 tiles, #202020 background, #ebebeb glyph, border-radius 0 (SQUARE),
+   flush (gap 0), centered beneath author profiles. Source has no hover state
+   change; an on-brand accent-yellow hover is added for affordance. */
+
+.social-links {
+  margin: 18px 0 0;              /* source btn-list padding-top: 18px */
+  text-align: center;           /* about-us profile rows are centered */
+}
+
+.social-links .social-links-list {
+  display: inline-flex;         /* flush row; inline-flex lets text-align center it */
+  flex-wrap: wrap;
+  gap: 0;                        /* source: tiles are adjacent (gap 0) */
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.social-links .social-links-item {
+  margin: 0;
+}
+
+.social-links .social-links-item a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;                                    /* source */
+  height: 48px;                                   /* source */
+  background-color: var(--dark-color, #202020);   /* source --brandSecondary #202020 */
+  color: #ebebeb;                                 /* source --textColorInverse */
+  border: 0;                                      /* source: 0px none */
+  border-radius: 0;                               /* source: 0px (square, not circular) */
+  text-decoration: none;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.social-links .social-links-item a:hover,
+.social-links .social-links-item a:focus-visible {
+  background-color: var(--accent-color, #ffea00); /* on-brand accent yellow */
+  color: var(--dark-color, #202020);
+}
+
+.social-links .social-links-item a:focus-visible {
+  outline: 2px solid var(--text-color, #202020);
+  outline-offset: 2px;
+}
+
+.social-links .social-links-item .glyph {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 17.5px;                 /* source glyph font-size: 17.5px */
+  height: 17.5px;
+  color: inherit;
+}
+
+.social-links .social-links-item .glyph svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Share variant: "Share this story" heading above a compact set of share links. */
+.social-links.share {
+  text-align: left;              /* source share block is left-aligned */
+}
+
+.social-links .social-links-heading {
+  margin: 0 0 12px;
+  font-size: 14px;               /* source h5 */
+  font-weight: 600;              /* source */
+  letter-spacing: normal;        /* source */
+  text-transform: uppercase;     /* source */
+  color: var(--dark-color, #202020); /* source #202020 */
+}

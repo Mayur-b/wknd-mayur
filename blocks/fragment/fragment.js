@@ -20,7 +20,13 @@ import {
  */
 export async function loadFragment(path) {
   if (path && path.startsWith('/') && !path.startsWith('//')) {
-    const resp = await fetch(`${path}.plain.html`);
+    // Try the given path first (preview/live). On local `aem up`, content is
+    // served under /content, so fall back to a /content-prefixed path when the
+    // bare path 404s. This keeps header/footer/fragments working in both places.
+    let resp = await fetch(`${path}.plain.html`);
+    if (!resp.ok && !path.startsWith('/content/')) {
+      resp = await fetch(`/content${path}.plain.html`);
+    }
     if (resp.ok) {
       const main = document.createElement('main');
       main.innerHTML = await resp.text();

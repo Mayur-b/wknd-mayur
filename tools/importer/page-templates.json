@@ -1,0 +1,117 @@
+{
+  "metadata": {
+    "projectType": "da"
+  },
+  "templates": [
+    {
+      "name": "home",
+      "urls": [
+        "https://wknd.site/us/en.html"
+      ],
+      "coverageGaps": [],
+      "description": "Homepage: hero carousel, featured article teaser, recent articles card grid, next adventures teaser + card grid.",
+      "blocks": [
+        {
+          "name": "hero",
+          "instances": [
+            ".carousel.cmp-carousel--hero",
+            ".teaser.cmp-teaser--hero.cmp-teaser--imagebottom"
+          ]
+        },
+        {
+          "name": "columns",
+          "instances": [
+            ".teaser.cmp-teaser--featured"
+          ]
+        },
+        {
+          "name": "cards",
+          "instances": [
+            ".image-list.list"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "magazine-listing",
+      "urls": [
+        "https://wknd.site/us/en/magazine.html"
+      ],
+      "coverageGaps": [],
+      "description": "Magazine landing: page title, featured article teaser, All Articles card grid (dynamic article list candidate), members-only teasers.",
+      "blocks": [
+        {
+          "name": "columns",
+          "instances": [
+            ".teaser.cmp-teaser--featured"
+          ],
+          "section": "grey"
+        },
+        {
+          "name": "article-list",
+          "instances": [
+            ".image-list.list"
+          ],
+          "section": "dynamic"
+        }
+      ]
+    },
+    {
+      "name": "article",
+      "urls": [
+        "https://wknd.site/us/en/magazine/western-australia.html",
+        "https://wknd.site/us/en/magazine/arctic-surfing.html",
+        "https://wknd.site/us/en/magazine/san-diego-surf.html",
+        "https://wknd.site/us/en/magazine/ski-touring.html",
+        "https://wknd.site/us/en/magazine/guide-la-skateparks.html"
+      ],
+      "coverageGaps": [],
+      "description": "Magazine article: hero image, breadcrumb, title + author byline, rich text body, author bio (name/title/avatar + social-links), share-this-story, related articles list.",
+      "blocks": [
+        {
+          "name": "author",
+          "instances": [
+            ".experiencefragment .cmp-experiencefragment--sofia-sjoeberg .cmp-byline",
+            ".cmp-byline"
+          ]
+        },
+        {
+          "name": "social-links",
+          "instances": [
+            ".cmp-buildingblock--btn-list",
+            "aside .sharing"
+          ]
+        },
+        {
+          "name": "article-list",
+          "instances": [
+            ".list.cmp-list--upnext ul.cmp-list",
+            ".list.cmp-list--upnext"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "about",
+      "urls": [
+        "https://wknd.site/us/en/about-us.html"
+      ],
+      "coverageGaps": [],
+      "description": "About page: title, Our Contributors section (profile cards with social-links), WKND Guides section (profile cards with social-links).",
+      "blocks": [
+        {
+          "name": "author",
+          "instances": [
+            "section.cmp-experience-fragment--contributor"
+          ]
+        },
+        {
+          "name": "social-links",
+          "instances": [
+            "section.cmp-experience-fragment--contributor .cmp-buildingblock--btn-list"
+          ]
+        }
+      ]
+    }
+  ]
+}

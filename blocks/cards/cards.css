@@ -1,27 +1,86 @@
+/* Cards block — visual design migrated from WKND (.image-list.list)
+ * All values extracted from source computed styles.
+ * Decorated DOM: .cards > ul > li > (div.cards-card-image > picture > img)
+ *                                   + (div.cards-card-body > p > a[title] + text[description])
+ */
+
+/* Grid — mobile first: 1 column */
 .cards > ul {
   list-style: none;
   margin: 0;
   padding: 0;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(257px, 1fr));
-  gap: 24px;
+  grid-template-columns: 1fr;
+  gap: 32px 14px;   /* row-gap 32px (source vertical), column-gap 14px (source horizontal gutter) */
 }
 
+/* Card — clean & minimal: no border, no background, no shadow (matches source) */
 .cards > ul > li {
-  border: 1px solid #dadada;
-  background-color: var(--background-color);
+  margin: 0;
+  padding: 0;
+  color: var(--text-color); /* #202020 */
 }
 
-.cards .cards-card-body {
-  margin: 16px;
-}
-
+/* Image — fixed aspect ratio, cover crop (source: 260x200 => 13/10) */
 .cards .cards-card-image {
   line-height: 0;
 }
 
-.cards > ul > li img {
+.cards .cards-card-image picture {
+  display: block;
+}
+
+.cards .cards-card-image img {
+  display: block;
   width: 100%;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 13 / 10;
   object-fit: cover;
+  border-radius: 0;
+}
+
+/* Card body — title link + description text share one <p> after decoration.
+ * Style the <p> as the description; promote the title <a> to block-level. */
+.cards .cards-card-body {
+  margin: 0;
+}
+
+.cards .cards-card-body p {
+  margin: 9px 0 0;              /* source gap image -> title */
+  color: rgb(105 105 105);     /* description grey #696969 */
+  font-family: var(--body-font-family);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 21px;
+  text-transform: uppercase;   /* source description is uppercase */
+}
+
+/* Title link — bold, dark, uppercase; block so the description drops below it */
+.cards .cards-card-body p a:any-link {
+  display: block;
+  margin: 0 0 16px;            /* source gap title -> description */
+  color: var(--text-color);   /* #202020 */
+  font-family: var(--body-font-family);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 27px;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.cards .cards-card-body p a:hover {
+  text-decoration: underline;
+}
+
+/* Tablet — 2 columns */
+@media (width >= 600px) {
+  .cards > ul {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Desktop — 4 columns */
+@media (width >= 900px) {
+  .cards > ul {
+    grid-template-columns: repeat(4, 1fr);
+  }
 }

@@ -1,0 +1,169 @@
+/* article-list block — visual design migrated from WKND
+ * Values extracted from source computed styles.
+ *
+ * Decorated DOM (from block JS):
+ *   .article-list.block > ul.article-list-items > li.article-list-item
+ *     > a.article-list-link
+ *         [> span.article-list-image > picture > img]   (dynamic only)
+ *          > span.article-list-title
+ *         [> span.article-list-date]
+ *
+ * Two variants:
+ *   .article-list          -> curated "Up Next" vertical list (WKND .cmp-list--upnext)
+ *   .article-list.dynamic  -> "All Articles" responsive card grid (WKND .cmp-image-list)
+ *
+ * Rules are ordered base-first, state-last to keep specificity ascending.
+ */
+
+/* ============================================================
+ * Shared list reset
+ * ============================================================ */
+.article-list .article-list-items {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* ============================================================
+ * CURATED variant — WKND "Up Next" list (base rules)
+ *  - each item = article TITLE (uppercase) + small DATE below
+ *  - separator is a 5px accent bar on the left of the link
+ * ============================================================ */
+.article-list:not(.dynamic) .article-list-item {
+  margin: 0 0 18px;                 /* source li margin-bottom (1em) */
+}
+
+.article-list:not(.dynamic) .article-list-link {
+  display: block;
+  border-left: 5px solid #ebebeb;   /* source --brandThird accent bar */
+  padding: 8px 16px;                /* source 0.5rem 1rem */
+  color: var(--text-color);         /* #202020 */
+  text-decoration: none;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.article-list:not(.dynamic) .article-list-title {
+  display: block;
+  padding: 5px;                     /* source title padding */
+  font-family: var(--body-font-family);
+  font-size: 18px;
+  font-weight: 400;                 /* source: NOT bold */
+  line-height: 27px;
+  text-transform: uppercase;
+  color: var(--text-color);         /* #202020 */
+}
+
+.article-list:not(.dynamic) .article-list-date {
+  display: block;
+  padding: 5px;                     /* source date padding */
+  font-family: var(--body-font-family);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 18px;
+  text-transform: uppercase;
+  color: #696969;                   /* source rgb(105,105,105) dimgray */
+}
+
+/* ============================================================
+ * DYNAMIC variant — "All Articles" responsive card grid (base rules)
+ *  - mirrors the migrated cards block (same WKND .image-list source)
+ *  - image on top, uppercase bold title, uppercase grey date
+ *  - 1 col mobile / 2 col tablet / 4 col desktop
+ * ============================================================ */
+.article-list.dynamic .article-list-items {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px 14px;                   /* row 32px, column 14px (source gutters) */
+}
+
+.article-list.dynamic .article-list-item {
+  margin: 0;
+  color: var(--text-color);
+}
+
+.article-list.dynamic .article-list-link {
+  display: flex;
+  flex-direction: column;
+  color: var(--text-color);
+  text-decoration: none;
+}
+
+.article-list.dynamic .article-list-image {
+  display: block;
+  line-height: 0;                   /* kill inline-image whitespace */
+}
+
+.article-list.dynamic .article-list-image img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 13 / 10;            /* source 260x200 */
+  object-fit: cover;
+  border-radius: 0;
+}
+
+.article-list.dynamic .article-list-title {
+  display: block;
+  margin: 9px 0 0;                  /* source image -> title gap */
+  font-family: var(--body-font-family);
+  font-size: 18px;
+  font-weight: 600;                 /* project card title weight */
+  line-height: 27px;
+  text-transform: uppercase;
+  color: var(--text-color);         /* #202020 */
+}
+
+.article-list.dynamic .article-list-date {
+  display: block;
+  margin: 16px 0 0;                 /* source title -> description gap */
+  font-family: var(--body-font-family);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 21px;
+  text-transform: uppercase;
+  color: #696969;                   /* source rgb(105,105,105) */
+}
+
+/* ============================================================
+ * State rules (hover / focus) — kept last so specificity ascends
+ * ============================================================ */
+
+/* Curated: signature WKND interaction — yellow row, dark accent bar */
+.article-list:not(.dynamic) .article-list-link:hover,
+.article-list:not(.dynamic) .article-list-link:focus-visible {
+  background-color: var(--accent-color);  /* #ffea00 */
+  border-left-color: var(--text-color);   /* #202020 */
+}
+
+.article-list:not(.dynamic) .article-list-link:focus-visible {
+  outline: 2px solid var(--text-color);
+  outline-offset: 2px;
+}
+
+/* Dynamic: underline the title on hover/focus */
+.article-list.dynamic .article-list-link:hover .article-list-title,
+.article-list.dynamic .article-list-link:focus-visible .article-list-title {
+  text-decoration: underline;
+}
+
+.article-list.dynamic .article-list-link:focus-visible {
+  outline: 2px solid var(--text-color);
+  outline-offset: 2px;
+}
+
+/* ============================================================
+ * Responsive — dynamic grid columns
+ * ============================================================ */
+
+/* Tablet — 2 columns */
+@media (width >= 600px) {
+  .article-list.dynamic .article-list-items {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Desktop — 4 columns */
+@media (width >= 900px) {
+  .article-list.dynamic .article-list-items {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}

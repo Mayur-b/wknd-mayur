@@ -1,37 +1,117 @@
+/*
+ * Block: hero — WKND full-bleed hero.
+ * Full-width background image with a white text panel overlaid on the lower-left
+ * containing a serif heading, description, and a yellow CTA button.
+ * Values extracted from wknd.site computed styles; mobile-first.
+ */
+
+/* Full-bleed: remove the EDS section max-width/padding on the hero's wrapper only. */
 .hero-container .hero-wrapper {
   max-width: unset;
+  margin: 0;
   padding: 0;
 }
 
 .hero {
   position: relative;
-  padding: 40px 24px;
-  min-height: 300px;
+  margin: 0;
 }
 
-.hero h1 {
-  max-width: 1200px;
-  margin-left: auto;
-  margin-right: auto;
-  color: var(--background-color);
+/* --- Image row (row 1): full-width banner image --- */
+.hero > div:first-child {
+  margin: 0;
 }
 
 .hero picture {
-  position: absolute;
-  z-index: -1;
-  inset: 0;
-  object-fit: cover;
-  box-sizing: border-box;
+  display: block;
 }
 
-.hero img {
-  object-fit: cover;
+.hero picture img {
+  display: block;
   width: 100%;
-  height: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
 }
 
+/* --- Content row (row 2): the text panel --- */
+.hero > div:last-child {
+  position: relative;
+  z-index: 1;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 4px 14px 24px;
+}
+
+.hero > div:last-child > div {
+  margin: 0;
+}
+
+/* --- Typography (matches WKND source) --- */
+.hero h2 {
+  margin: 18px 0 0;
+  font-family: var(--heading-font-family);
+  font-size: 36px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--text-color);
+}
+
+.hero p {
+  margin: 0;
+  font-family: var(--body-font-family);
+  font-size: 18px;
+  line-height: 1.75;
+  color: var(--text-color);
+}
+
+/* CTA paragraph sits below the description with a gap. */
+.hero > div:last-child p:last-child {
+  margin-top: 18px;
+}
+
+/*
+ * CTA button. The link is not auto-decorated with .button in this content,
+ * so style the raw anchor to match the WKND square yellow button.
+ */
+.hero > div:last-child a:any-link {
+  display: inline-block;
+  box-sizing: border-box;
+  border: 2px solid transparent;
+  border-radius: 0;
+  padding: 14px 35px;
+  background-color: var(--accent-color);
+  color: var(--accent-text-color);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.hero > div:last-child a:hover,
+.hero > div:last-child a:focus-visible {
+  background-color: var(--text-color);
+  color: var(--accent-color);
+  text-decoration: none;
+}
+
+/* --- Tablet / desktop: full-bleed image + overlaid inset white panel --- */
 @media (width >= 900px) {
-  .hero {
-    padding: 40px 32px;
+  .hero picture img {
+    aspect-ratio: 2 / 1;
+  }
+
+  .hero > div:last-child {
+    max-width: calc(100% - 88px);
+    margin: -180px auto 0;
+    padding: 0 28px 18px;
+    background-color: var(--background-color);
+  }
+
+  /* first child of the panel keeps its 18px top breathing room via the h2 margin */
+  .hero > div:last-child h2 {
+    margin-top: 18px;
   }
 }

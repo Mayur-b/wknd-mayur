@@ -1,0 +1,48 @@
+{
+  "variantName": "article-list",
+  "baseBlock": "article-list",
+  "version": "1.0.0",
+  "created": "2026-08-10T00:00:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://wknd.site/us/en/magazine/western-australia.html",
+    "originPage": "WKND magazine article page (up-next sidebar list)",
+    "blockPosition": "bottom"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "compact",
+    "purpose": "article-list",
+    "imagePattern": "noimg"
+  },
+  "contentPattern": {
+    "structure": "list of article links each with a title + date",
+    "buttonCount": 0,
+    "imageCount": 0
+  },
+  "variants": [
+    {
+      "name": "(curated/static)",
+      "description": "Author-curated list: one row per article = link (text is the title) + date text."
+    },
+    {
+      "name": "dynamic",
+      "description": "Fetches /query-index.json, filters to /magazine/**, renders newest-first so newly published articles appear with no code change. Config rows: index, filter, limit."
+    }
+  ],
+  "reuseGuidance": {
+    "suitableFor": [
+      "related-articles / up-next widgets",
+      "magazine listing pages (All Articles)",
+      "dynamic index-driven article rolls"
+    ],
+    "notSuitableFor": [
+      "rich product/feature grids with imagery (use cards)",
+      "tabular data (use table)"
+    ]
+  },
+  "usage": {
+    "pagesUsing": ["/us/en/magazine/western-australia", "/us/en/magazine"],
+    "reuseCount": 2,
+    "lastUsed": "2026-08-10T08:12:00.000Z"
+  }
+}
