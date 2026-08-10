@@ -121,23 +121,31 @@ function decorateButtons(main) {
       if (new URL(a.href).href === new URL(text, window.location).href) return;
     } catch { /* continue */ }
 
-    // require authored formatting for buttonization
     const strong = a.closest('strong');
     const em = a.closest('em');
-    if (!strong && !em) return;
 
-    p.className = 'button-wrapper';
-    a.className = 'button';
-    if (strong && em) { // high-impact call-to-action
-      a.classList.add('accent');
-      const outer = strong.contains(em) ? strong : em;
-      outer.replaceWith(a);
-    } else if (strong) {
-      a.classList.add('primary');
-      strong.replaceWith(a);
-    } else {
-      a.classList.add('secondary');
-      em.replaceWith(a);
+    if (strong || em) {
+      p.className = 'button-wrapper';
+      a.className = 'button';
+      if (strong && em) { // high-impact call-to-action
+        a.classList.add('accent');
+        const outer = strong.contains(em) ? strong : em;
+        outer.replaceWith(a);
+      } else if (strong) {
+        a.classList.add('primary');
+        strong.replaceWith(a);
+      } else {
+        a.classList.add('secondary');
+        em.replaceWith(a);
+      }
+    } else if (a.closest('.default-content-wrapper') && document.body.contains(a)) {
+      // A standalone link that is the whole paragraph in page default content
+      // (e.g. "All Articles", "All Trips") is a CTA — render it as the WKND
+      // yellow primary button. Scoped to live-page default content so it does
+      // not touch in-block CTAs (hero/columns/cards, styled by their own blocks)
+      // or nav/footer fragments (decorated detached from the document).
+      p.className = 'button-wrapper';
+      a.className = 'button primary';
     }
   });
 }
