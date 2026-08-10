@@ -166,6 +166,14 @@ async function loadEager(doc) {
   if (main) {
     decorateMain(main);
     document.body.classList.add('appear');
+    // Prioritize the LCP image: load the first image eagerly and at high fetch
+    // priority so it never competes with lazy below-the-fold images. Core Web
+    // Vitals best practice — never leave the LCP element on loading="lazy".
+    const lcpImg = main.querySelector('.section img');
+    if (lcpImg) {
+      lcpImg.setAttribute('loading', 'eager');
+      lcpImg.setAttribute('fetchpriority', 'high');
+    }
     await loadSection(main.querySelector('.section'), waitForFirstImage);
   }
 
