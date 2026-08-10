@@ -151,6 +151,68 @@
 }
 
 /* ============================================================
+ * Curated: absorbed "Share this story" heading (sidebar title)
+ * ============================================================ */
+.article-list.with-heading h2,
+.article-list.with-heading h3,
+.article-list.with-heading h4,
+.article-list.with-heading h5,
+.article-list.with-heading h6 {
+  margin: 0 0 24px;
+  font-family: var(--body-font-family);
+  font-size: var(--body-font-size-xs);
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--text-color);
+}
+
+/* ============================================================
+ * Article-page layout — right-hand sidebar (matches WKND source)
+ *   The article template renders a single flat section containing, in order:
+ *     [body default-content] [author block] [article-list (SHARE sidebar)]
+ *   On desktop, lay the section out as a 2-column grid: article body + author
+ *   stack in the wide left column, and the article-list becomes a narrow right
+ *   sidebar that starts at the top alongside the body (matching WKND). On mobile
+ *   it stays stacked full width (grid only applies at >= 900px).
+ * ============================================================ */
+@media (width >= 900px) {
+  main .section.magazine-article {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+    column-gap: 56px;
+    align-items: start;
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 32px;
+  }
+
+  /* neutralize the per-wrapper centering/max-width so grid controls layout */
+  main .section.magazine-article > div {
+    max-width: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  main .section.magazine-article > .default-content-wrapper {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  main .section.magazine-article > .author-wrapper {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  /* SHARE sidebar: right column, aligned to the top next to the body */
+  main .section.magazine-article > .article-list-wrapper {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    align-self: start;
+  }
+}
+
+/* ============================================================
  * Responsive — dynamic grid columns
  * ============================================================ */
 

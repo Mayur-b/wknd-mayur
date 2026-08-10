@@ -145,6 +145,27 @@ async function fetchDynamicArticles(indexUrl, filter, limit, currentPath) {
 export default async function decorate(block) {
   const isDynamic = block.classList.contains('dynamic');
 
+  // Curated (article-page) variant: the source renders the "Share this story"
+  // heading + this related-article list as a right-hand sidebar alongside the
+  // article body. Absorb the immediately-preceding "Share this story" heading so
+  // the heading and list form one sidebar unit, and mark the section so CSS can
+  // lay it out as a right column (see article-list.css, .magazine-article grid).
+  let shareHeading = null;
+  let emptyWrapper = null;
+  if (!isDynamic) {
+    const wrapper = block.closest('.article-list-wrapper');
+    const prev = wrapper && wrapper.previousElementSibling;
+    if (prev && prev.classList && prev.classList.contains('default-content-wrapper')) {
+      const heading = prev.querySelector('h2, h3, h4, h5, h6');
+      if (heading && /share/i.test(heading.textContent)) {
+        shareHeading = heading;
+        emptyWrapper = prev;
+      }
+    }
+    const section = block.closest('.section');
+    if (section) section.classList.add('magazine-article');
+  }
+
   const list = document.createElement('ul');
   list.className = 'article-list-items';
 
@@ -164,5 +185,13 @@ export default async function decorate(block) {
   articles.forEach((article) => list.append(renderItem(article)));
 
   block.textContent = '';
+  if (shareHeading) {
+    block.classList.add('with-heading');
+    block.append(shareHeading);
+    // remove the now-empty heading wrapper so it doesn't leave a gap
+    if (emptyWrapper && !emptyWrapper.textContent.trim() && !emptyWrapper.querySelector('img')) {
+      emptyWrapper.remove();
+    }
+  }
   block.append(list);
 }
