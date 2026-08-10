@@ -1,0 +1,49 @@
+{
+  "variantName": "social-links",
+  "baseBlock": "social-links",
+  "version": "1.0.0",
+  "created": "2026-08-10T00:00:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://wknd.site/us/en/magazine/western-australia.html",
+    "originPage": "WKND magazine article page",
+    "blockPosition": "bottom"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "compact",
+    "purpose": "social-links",
+    "imagePattern": "icon"
+  },
+  "contentPattern": {
+    "structure": "row of platform icon links (optional heading)",
+    "buttonCount": 3,
+    "imageCount": 0
+  },
+  "variants": [
+    {
+      "name": "(default)",
+      "description": "Row of author/profile social icon links (Facebook, Twitter, Instagram)."
+    },
+    {
+      "name": "share",
+      "description": "Share-intent icon links (e.g. Pinterest, Facebook) with an optional 'Share this story' heading."
+    }
+  ],
+  "reuseGuidance": {
+    "suitableFor": [
+      "author bios",
+      "share-this-story widgets",
+      "contributor/profile cards",
+      "footers with social profiles"
+    ],
+    "notSuitableFor": [
+      "primary navigation",
+      "inline body links"
+    ]
+  },
+  "usage": {
+    "pagesUsing": ["/us/en/magazine/western-australia", "/us/en/about-us"],
+    "reuseCount": 2,
+    "lastUsed": "2026-08-10T00:00:00.000Z"
+  }
+}

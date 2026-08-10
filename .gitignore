@@ -8,6 +8,11 @@ helix-importer-ui
 *.bak
 .idea
 
+# migration importer build artifacts (sources are tracked; these are generated)
+tools/importer/*.bundle.js
+tools/importer/urls-*.txt
+tools/importer/reports/
+
 # Ensure these files are tracked
 !CLAUDE.md
 !AGENTS.md
