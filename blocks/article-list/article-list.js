@@ -146,11 +146,15 @@ export default async function decorate(block) {
   const isDynamic = block.classList.contains('dynamic');
 
   // Curated (article-page) variant: the source renders the "Share this story"
-  // heading + this related-article list as a right-hand sidebar alongside the
-  // article body. Absorb the immediately-preceding "Share this story" heading so
-  // the heading and list form one sidebar unit, and mark the section so CSS can
-  // lay it out as a right column (see article-list.css, .magazine-article grid).
+  // heading, a compact "Download PDF" component, and this related-article list
+  // together as a single right-hand sidebar alongside the article body. In the
+  // authored content those first two live in the default-content-wrapper that
+  // immediately precedes this block. Absorb that whole wrapper into the sidebar
+  // (heading first, then the Download PDF material) so everything forms one
+  // sidebar unit, and mark the section so CSS can lay it out as a right column
+  // (see article-list.css, .magazine-article grid).
   let shareHeading = null;
+  let downloadNodes = [];
   let emptyWrapper = null;
   if (!isDynamic) {
     const wrapper = block.closest('.article-list-wrapper');
@@ -159,6 +163,10 @@ export default async function decorate(block) {
       const heading = prev.querySelector('h2, h3, h4, h5, h6');
       if (heading && /share/i.test(heading.textContent)) {
         shareHeading = heading;
+        shareHeading.remove();
+        // Whatever remains is the source's Download PDF component (title link,
+        // "Get the Full Story" description, file properties, action button).
+        downloadNodes = [...prev.children];
         emptyWrapper = prev;
       }
     }
@@ -188,10 +196,21 @@ export default async function decorate(block) {
   if (shareHeading) {
     block.classList.add('with-heading');
     block.append(shareHeading);
-    // remove the now-empty heading wrapper so it doesn't leave a gap
-    if (emptyWrapper && !emptyWrapper.textContent.trim() && !emptyWrapper.querySelector('img')) {
-      emptyWrapper.remove();
-    }
+  }
+  // Rebuild the compact "Download PDF" component inside the sidebar (WKND order:
+  // share heading -> download -> related list). The moved nodes are the title
+  // link, the "Get the Full Story" description, the file properties list, and the
+  // action button.
+  if (downloadNodes.length) {
+    const download = document.createElement('div');
+    download.className = 'article-list-download';
+    downloadNodes.forEach((node) => download.append(node));
+    block.append(download);
+  }
+  // The preceding wrapper is now emptied of its share/download content — drop it
+  // so it doesn't leave a stray column in the article grid.
+  if (emptyWrapper && !emptyWrapper.textContent.trim() && !emptyWrapper.querySelector('img')) {
+    emptyWrapper.remove();
   }
   block.append(list);
 }
