@@ -4,33 +4,17 @@
  * Parser for variant: hero
  * Base block: hero
  * Source: WKND home template
- *   - Carousel form  (.carousel.cmp-carousel--hero) -> use FIRST/active slide only
- *   - Teaser form    (.teaser.cmp-teaser--hero.cmp-teaser--imagebottom)
- * Library structure (1 column): row 2 = background image (optional);
- *   row 3 = title (heading) + description + CTA link.
+ *   - Carousel form  (.carousel.cmp-carousel--hero) -> ALL slides, one row each
+ *   - Teaser form    (.teaser.cmp-teaser--hero.cmp-teaser--imagebottom) -> 1 slide
  *
- * NOTE on carousel completeness: a hero is a single banner, so by design only the
- * first/active slide is mapped. Slides 2+ (San Diego Surf Spots, Downhill Skiing
- * Wyoming) and the Previous/Next carousel controls are intentionally discarded —
- * this is the required carousel->single-hero reduction, not dropped content. The
- * active slide is captured in full (standalone teaser instance validates at 100%).
- * The completeness metric for the carousel instance (~52%) is the expected floor
- * for a 3-slide -> 1-slide reduction and is acceptable per the mapping spec. The
- * hero library structure allows exactly one title/subheading/CTA, so additional
- * slides cannot be represented without producing a malformed hero table.
+ * Block table shape: one row per slide = [ image | (heading + description + CTA) ].
+ * blocks/hero/hero.js renders a single row as a static hero, multiple rows as a
+ * rotating carousel (prev/next + indicator dots), and an image-only slide as a
+ * plain banner.
  *
- * Generated: 2026-08-10
- * Validated: teaser instance 100%; carousel instance ~52% is the expected/accepted
- *   floor for the required 3-slide -> single-hero reduction (see NOTE above).
+ * Generated: 2026-08-11 (carousel: emit all slides)
  */
-export default function parse(element, { document }) {
-  // For a carousel, only the first/active slide maps to the single hero.
-  let scope = element;
-  const activeSlide = element.querySelector('.cmp-carousel__item--active')
-    || element.querySelector('.cmp-carousel__item');
-  if (activeSlide) scope = activeSlide;
-
-  // Extraction (validated against source.html: cmp-teaser__* classes).
+function extractSlide(scope) {
   const heading = scope.querySelector('.cmp-teaser__title, h1, h2, h3');
   const description = scope.querySelector('.cmp-teaser__description, p');
   let ctas = Array.from(scope.querySelectorAll('.cmp-teaser__action-container a'));
@@ -38,22 +22,36 @@ export default function parse(element, { document }) {
     ctas = Array.from(scope.querySelectorAll('.cmp-teaser__action-link, a.cmp-button'));
   }
   const image = scope.querySelector('.cmp-teaser__image img, .cmp-image__image, img');
+  if (!heading && !description && !image) return null;
 
-  // Empty-block guard.
-  if (!heading && !description && !image) {
-    element.replaceWith(...element.childNodes);
-    return;
-  }
-
-  const cells = [];
-  // Row 2: background image (optional).
-  if (image) cells.push([image]);
-  // Row 3: single cell (hero is 1-column) holding heading + description + CTA(s).
   const content = [];
   if (heading) content.push(heading);
   if (description) content.push(description);
   content.push(...ctas);
-  cells.push([content]);
+  // one row: [ image cell | content cell ]. Omit the content cell if empty.
+  return content.length ? [image || '', content] : [image || ''];
+}
+
+export default function parse(element, { document }) {
+  const cells = [];
+
+  const slides = Array.from(element.querySelectorAll('.cmp-carousel__item'));
+  if (slides.length) {
+    // Carousel: one row per slide.
+    slides.forEach((slide) => {
+      const row = extractSlide(slide);
+      if (row) cells.push(row);
+    });
+  } else {
+    // Single teaser hero.
+    const row = extractSlide(element);
+    if (row) cells.push(row);
+  }
+
+  if (!cells.length) {
+    element.replaceWith(...element.childNodes);
+    return;
+  }
 
   const block = WebImporter.Blocks.createBlock(document, { name: 'hero', cells });
   element.replaceWith(block);
