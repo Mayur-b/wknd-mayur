@@ -252,11 +252,12 @@
     margin-top: 0;
   }
 
-  /* dots overlaid near the bottom */
+  /* dots overlaid, horizontally centered near the bottom of the block */
   .hero-carousel .hero-dots {
     position: absolute;
-    right: 44px;
+    left: 50%;
     bottom: 24px;
+    transform: translateX(-50%);
     padding: 0;
   }
 }
