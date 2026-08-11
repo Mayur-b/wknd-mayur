@@ -99,31 +99,30 @@
  * ============================================================ */
 .hero-carousel {
   position: relative;
+  margin-bottom: 40px; /* breathing room before the next section (featured article) */
 }
 
+/* Stack every slide in the same grid cell so they overlap and the track sizes to
+ * the tallest slide. Only the active slide is visible (fade). No position toggling,
+ * so switching slides never changes document flow / height. */
 .hero-carousel .hero-slides {
   list-style: none;
   margin: 0;
   padding: 0;
-  position: relative;
+  display: grid;
+  grid-template-columns: 1fr;
 }
 
-/* Stack slides; show only the active one (fade transition). */
 .hero-carousel .hero-slide {
+  grid-area: 1 / 1; /* all slides occupy the same cell (overlap) */
+  position: relative; /* positioning context for the overlaid content panel */
   margin: 0;
-  position: absolute;
-  inset: 0;
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.5s ease;
 }
 
-.hero-carousel .hero-slide:first-child {
-  position: relative; /* first slide defines the carousel height */
-}
-
 .hero-carousel .hero-slide.is-active {
-  position: relative;
   opacity: 1;
   visibility: visible;
 }
@@ -253,11 +252,12 @@
     margin-top: 0;
   }
 
-  /* dots overlaid near the bottom */
+  /* dots overlaid, horizontally centered near the bottom of the block */
   .hero-carousel .hero-dots {
     position: absolute;
-    right: 44px;
+    left: 50%;
     bottom: 24px;
+    transform: translateX(-50%);
     padding: 0;
   }
 }

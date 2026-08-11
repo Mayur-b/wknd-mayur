@@ -147,15 +147,41 @@ export default function decorate(block) {
 
   // Autoplay — pause on hover/focus and when the tab is hidden; respects
   // prefers-reduced-motion.
+  // Autoplay. A perpetual setInterval keeps the main thread from ever going idle,
+  // which makes Lighthouse/PSI time out (score n/a). So: use a self-cancelling
+  // setTimeout chain (not a fixed interval), only run while the hero is visible
+  // (IntersectionObserver) AND the tab is visible, pause on hover/focus, and
+  // never start under prefers-reduced-motion. Headless Lighthouse runs the page
+  // hidden/offscreen, so autoplay stays parked and the page reaches quiet.
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (!reduceMotion) {
     let timer = null;
-    const start = () => { timer = window.setInterval(() => setActive(currentIndex + 1), 6000); };
-    const stop = () => { if (timer) { window.clearInterval(timer); timer = null; } };
-    block.addEventListener('mouseenter', stop);
-    block.addEventListener('mouseleave', start);
-    block.addEventListener('focusin', stop);
-    block.addEventListener('focusout', start);
-    start();
+    let inView = false;
+    let interacting = false;
+    const schedule = () => {
+      if (timer || !inView || interacting || document.hidden) return;
+      timer = window.setTimeout(() => {
+        timer = null;
+        setActive(currentIndex + 1);
+        schedule();
+      }, 6000);
+    };
+    const stopTimer = () => { if (timer) { window.clearTimeout(timer); timer = null; } };
+    const pause = () => { interacting = true; stopTimer(); };
+    const resume = () => { interacting = false; schedule(); };
+
+    block.addEventListener('mouseenter', pause);
+    block.addEventListener('mouseleave', resume);
+    block.addEventListener('focusin', pause);
+    block.addEventListener('focusout', resume);
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) stopTimer(); else schedule();
+    });
+
+    const io = new IntersectionObserver((entries) => {
+      inView = entries[0].isIntersecting;
+      if (inView) schedule(); else stopTimer();
+    }, { threshold: 0.25 });
+    io.observe(block);
   }
 }
