@@ -59,9 +59,13 @@
     padding: 0;
   }
 
-  /* hero + title span the full width across the top */
-  main .section.adventure > .hero-wrapper,
-  main .section.adventure > .default-content-wrapper:first-of-type {
+  /* hero spans the full width across the top */
+  main .section.adventure > .hero-wrapper {
+    grid-column: 1 / -1;
+  }
+
+  /* title = the default-content wrapper right after the hero; span full width */
+  main .section.adventure > .hero-wrapper + .default-content-wrapper {
     grid-column: 1 / -1;
   }
 
