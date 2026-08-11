@@ -3,12 +3,14 @@
 
 // PARSER IMPORTS
 import heroParser from './parsers/hero.js';
+import adventureSpecsParser from './parsers/adventure-specs.js';
 
 // TRANSFORMER IMPORTS
 import wkndCleanupTransformer from './transformers/wknd-cleanup.js';
 
 const parsers = {
   hero: heroParser,
+  'adventure-specs': adventureSpecsParser,
 };
 
 const transformers = [
@@ -30,6 +32,12 @@ const PAGE_TEMPLATE = {
       name: 'hero',
       instances: [
         '.carousel.panelcontainer',
+      ],
+    },
+    {
+      name: 'adventure-specs',
+      instances: [
+        '.cmp-contentfragment__elements',
       ],
     },
   ],

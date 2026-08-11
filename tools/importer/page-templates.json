@@ -148,12 +148,18 @@
         "https://wknd.site/us/en/adventures/napa-wine-tasting.html"
       ],
       "coverageGaps": [],
-      "description": "Adventure detail: hero image (carousel first slide), title, trip specs (default content), overview body with images, related trips.",
+      "description": "Adventure detail: hero image (carousel first slide), title, trip specs sidebar (adventure-specs), overview body with images, related trips.",
       "blocks": [
         {
           "name": "hero",
           "instances": [
             ".carousel.panelcontainer"
+          ]
+        },
+        {
+          "name": "adventure-specs",
+          "instances": [
+            ".cmp-contentfragment__elements"
           ]
         }
       ]

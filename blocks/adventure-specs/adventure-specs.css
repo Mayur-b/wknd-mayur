@@ -1,0 +1,77 @@
+/* adventure-specs block — WKND adventure detail trip-details list.
+ * Each spec = an uppercase label + value, with a yellow accent bar on the left,
+ * matching the WKND source. Laid out as a left sidebar on desktop by the
+ * .adventure section grid (see below). */
+
+.adventure-specs .adventure-specs-list {
+  margin: 0;
+  padding: 0;
+}
+
+.adventure-specs .adventure-specs-label {
+  margin: 0;
+  padding: 4px 0 4px 16px;
+  border-left: 4px solid var(--accent-color); /* WKND yellow accent bar */
+  font-family: var(--body-font-family);
+  font-size: var(--body-font-size-xs);
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #6a6a6a;
+}
+
+.adventure-specs .adventure-specs-value {
+  margin: 0 0 28px;
+  padding: 0 0 0 16px;
+  border-left: 4px solid var(--accent-color);
+  font-family: var(--body-font-family);
+  font-size: var(--body-font-size-s);
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--text-color);
+}
+
+.adventure-specs .adventure-specs-value:last-child {
+  margin-bottom: 0;
+}
+
+/* ============================================================
+ * Adventure detail page layout — specs sidebar + body
+ *   Section wrappers (in order): [hero] [title default-content]
+ *   [adventure-specs] [share heading + body default-content]
+ *   On desktop: specs pinned to a narrow left column, everything else right.
+ * ============================================================ */
+@media (width >= 900px) {
+  main .section.adventure {
+    display: grid;
+    grid-template-columns: minmax(0, 260px) minmax(0, 1fr);
+    column-gap: 56px;
+    align-items: start;
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 32px;
+  }
+
+  main .section.adventure > div {
+    max-width: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* hero + title span the full width across the top */
+  main .section.adventure > .hero-wrapper,
+  main .section.adventure > .default-content-wrapper:first-of-type {
+    grid-column: 1 / -1;
+  }
+
+  /* specs -> left column */
+  main .section.adventure > .adventure-specs-wrapper {
+    grid-column: 1;
+  }
+
+  /* remaining body content -> right column */
+  main .section.adventure > .default-content-wrapper:last-of-type {
+    grid-column: 2;
+  }
+}
