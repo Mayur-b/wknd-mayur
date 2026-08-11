@@ -4,6 +4,44 @@
  *                                   + (div.cards-card-body > p > a[title] + text[description])
  */
 
+/* Category filter pills (adventures listing). The cards JS replaces the source
+ * category list with these buttons; clicking one filters the cards by category. */
+.cards-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 0 0 32px;
+  padding: 0;
+}
+
+.cards-filter-pill {
+  margin: 0;
+  border: 2px solid var(--text-color);
+  border-radius: 999px;
+  padding: 8px 22px;
+  background: transparent;
+  color: var(--text-color);
+  font-family: var(--body-font-family);
+  font-size: var(--body-font-size-xs);
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.cards-filter-pill:hover,
+.cards-filter-pill:focus-visible {
+  background: var(--text-color);
+  color: #fff;
+}
+
+.cards-filter-pill.is-active {
+  background: var(--accent-color);
+  border-color: var(--accent-color);
+  color: var(--accent-text-color);
+}
+
 /* Grid — mobile first: 1 column */
 .cards > ul {
   list-style: none;

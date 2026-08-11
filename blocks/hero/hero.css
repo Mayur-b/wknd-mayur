@@ -99,11 +99,11 @@
 
 /* --- Tablet / desktop: full-bleed image + overlaid inset white panel --- */
 @media (width >= 900px) {
-  .hero picture img {
+  .hero:not(.hero-image-only) picture img {
     aspect-ratio: 2 / 1;
   }
 
-  .hero > div:last-child {
+  .hero:not(.hero-image-only) > div:last-child {
     max-width: calc(100% - 88px);
     margin: -180px auto 0;
     padding: 0 28px 18px;
@@ -111,7 +111,17 @@
   }
 
   /* first child of the panel keeps its 18px top breathing room via the h2 margin */
-  .hero > div:last-child h2 {
+  .hero:not(.hero-image-only) > div:last-child h2 {
     margin-top: 18px;
   }
+}
+
+/* --- Image-only hero (adventure detail lead image) ---
+ * No overlay panel; a plain contained banner with a capped height so it does not
+ * dominate the page or overlap the title/header. */
+.hero.hero-image-only picture img {
+  aspect-ratio: auto;
+  width: 100%;
+  max-height: 420px;
+  object-fit: cover;
 }
