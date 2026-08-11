@@ -7,8 +7,7 @@ footer {
 footer .footer > div {
   margin: auto;
   max-width: 1200px;
-  padding: 48px 24px 32px;
-  text-align: center;
+  padding: 40px 24px 32px;
 }
 
 footer .footer p {
@@ -25,31 +24,36 @@ footer .footer a:hover {
   text-decoration-color: var(--accent-color);
 }
 
+/* The four authored sections inside the footer wrapper:
+ *   0 = WKND wordmark, 1 = nav links, 2 = Follow Us + social, 3 = copyright/disclaimer */
+footer .footer .section {
+  margin: 0;
+}
+
 /* WKND wordmark */
-footer .footer > div:first-child a {
+footer .footer .section:nth-child(1) a {
   font-family: var(--heading-font-family);
   font-size: 28px;
   letter-spacing: 2px;
   text-transform: uppercase;
 }
 
-/* footer nav links — horizontal, uppercase */
-footer .footer ul {
+/* footer nav links — inline, uppercase */
+footer .footer .section:nth-child(2) ul {
   list-style: none;
   margin: 0;
   padding: 0;
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
-  gap: 16px 28px;
+  gap: 12px 28px;
   text-transform: uppercase;
   letter-spacing: 1px;
   font-weight: 600;
 }
 
-/* Follow Us heading */
-footer .footer h4 {
-  margin: 0 0 12px;
+/* Follow Us + social */
+footer .footer .section:nth-child(3) h4 {
+  margin: 0 0 10px;
   font-family: var(--body-font-family);
   font-weight: 600;
   text-transform: uppercase;
@@ -57,21 +61,68 @@ footer .footer h4 {
   font-size: var(--body-font-size-xs);
 }
 
-/* copyright + disclaimer */
-footer .footer > div:last-child {
-  border-top: 1px solid rgb(255 255 255 / 20%);
-  color: rgb(255 255 255 / 70%);
-  max-width: 800px;
+footer .footer .section:nth-child(3) ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 20px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 600;
 }
 
-footer .footer > div:last-child p:first-child {
-  margin-bottom: 12px;
+/* copyright + disclaimer */
+footer .footer .section:nth-child(4) {
+  color: rgb(255 255 255 / 70%);
+}
+
+footer .footer .section:nth-child(4) p:first-child {
+  margin-bottom: 10px;
   font-weight: 600;
   color: #fff;
 }
 
+/* Desktop: top row is horizontal — logo + nav left, Follow Us right;
+ * copyright/disclaimer spans full width below, left-aligned. */
 @media (width >= 900px) {
   footer .footer > div {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 28px 40px;
     padding: 48px 32px 32px;
+  }
+
+  footer .footer .section:nth-child(1) {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  footer .footer .section:nth-child(2) {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  footer .footer .section:nth-child(3) {
+    grid-column: 3;
+    grid-row: 1;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    white-space: nowrap;
+  }
+
+  footer .footer .section:nth-child(3) h4 {
+    margin: 0;
+  }
+
+  /* copyright/disclaimer full width, below the top row */
+  footer .footer .section:nth-child(4) {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    border-top: 1px solid rgb(255 255 255 / 20%);
+    padding-top: 24px;
   }
 }
