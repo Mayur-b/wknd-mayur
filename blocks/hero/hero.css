@@ -1,9 +1,14 @@
 /*
- * Block: hero — WKND full-bleed hero.
- * Full-width background image with a white text panel overlaid on the lower-left
- * containing a serif heading, description, and a yellow CTA button.
+ * Block: hero — WKND full-bleed hero, with optional carousel.
  * Values extracted from wknd.site computed styles; mobile-first.
+ *
+ * Variants (set by hero.js):
+ *   .hero-single      one slide, image + overlaid white text panel (home legacy)
+ *   .hero-carousel    multiple rotating slides + prev/next + indicator dots
+ *   .hero-image-only  a lead image only (adventure detail), contained banner
  */
+
+/* stylelint-disable no-descending-specificity */
 
 /* Full-bleed: remove the EDS section max-width/padding on the hero's wrapper only. */
 .hero-container .hero-wrapper {
@@ -17,11 +22,9 @@
   margin: 0;
 }
 
-/* --- Image row (row 1): full-width banner image --- */
-.hero > div:first-child {
-  margin: 0;
-}
-
+/* ============================================================
+ * Shared slide typography (single + carousel)
+ * ============================================================ */
 .hero picture {
   display: block;
 }
@@ -33,20 +36,6 @@
   object-fit: cover;
 }
 
-/* --- Content row (row 2): the text panel --- */
-.hero > div:last-child {
-  position: relative;
-  z-index: 1;
-  box-sizing: border-box;
-  margin: 0;
-  padding: 4px 14px 24px;
-}
-
-.hero > div:last-child > div {
-  margin: 0;
-}
-
-/* --- Typography (matches WKND source) --- */
 .hero h2 {
   margin: 18px 0 0;
   font-family: var(--heading-font-family);
@@ -56,7 +45,8 @@
   color: var(--text-color);
 }
 
-.hero p {
+.hero .hero-slide-content p,
+.hero > div:last-child p {
   margin: 0;
   font-family: var(--body-font-family);
   font-size: 18px;
@@ -64,18 +54,12 @@
   color: var(--text-color);
 }
 
-/* CTA paragraph sits below the description with a gap. */
-.hero > div:last-child p:last-child {
-  margin-top: 18px;
-}
-
-/*
- * CTA button. The link is not auto-decorated with .button in this content,
- * so style the raw anchor to match the WKND square yellow button.
- */
+/* CTA button — style the raw anchor to match the WKND square yellow button. */
+.hero .hero-slide-content a:any-link,
 .hero > div:last-child a:any-link {
   display: inline-block;
   box-sizing: border-box;
+  margin-top: 18px;
   border: 2px solid transparent;
   border-radius: 0;
   padding: 14px 35px;
@@ -90,6 +74,8 @@
   transition: background-color 0.2s ease, color 0.2s ease;
 }
 
+.hero .hero-slide-content a:hover,
+.hero .hero-slide-content a:focus-visible,
 .hero > div:last-child a:hover,
 .hero > div:last-child a:focus-visible {
   background-color: var(--text-color);
@@ -97,31 +83,181 @@
   text-decoration: none;
 }
 
-/* --- Tablet / desktop: full-bleed image + overlaid inset white panel --- */
+/* ============================================================
+ * SINGLE hero (legacy home / any 1-slide hero)
+ * ============================================================ */
+.hero-single > div:last-child {
+  position: relative;
+  z-index: 1;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 4px 14px 24px;
+}
+
+/* ============================================================
+ * CAROUSEL
+ * ============================================================ */
+.hero-carousel {
+  position: relative;
+}
+
+.hero-carousel .hero-slides {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+
+/* Stack slides; show only the active one (fade transition). */
+.hero-carousel .hero-slide {
+  margin: 0;
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s ease;
+}
+
+.hero-carousel .hero-slide:first-child {
+  position: relative; /* first slide defines the carousel height */
+}
+
+.hero-carousel .hero-slide.is-active {
+  position: relative;
+  opacity: 1;
+  visibility: visible;
+}
+
+.hero-carousel .hero-slide-image {
+  margin: 0;
+}
+
+.hero-carousel .hero-slide-content {
+  box-sizing: border-box;
+  padding: 4px 14px 24px;
+}
+
+/* prev / next controls */
+.hero-carousel .hero-controls {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  gap: 2px;
+}
+
+.hero-carousel .hero-nav {
+  width: 44px;
+  height: 44px;
+  border: none;
+  background: rgb(32 32 32 / 55%);
+  color: #fff;
+  cursor: pointer;
+  font-size: 0;
+  transition: background-color 0.2s ease;
+}
+
+.hero-carousel .hero-nav:hover,
+.hero-carousel .hero-nav:focus-visible {
+  background: var(--text-color);
+}
+
+.hero-carousel .hero-nav::before {
+  content: '';
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border: solid #fff;
+  border-width: 2px 2px 0 0;
+}
+
+.hero-carousel .hero-nav-prev::before {
+  transform: rotate(-135deg);
+  margin-left: 4px;
+}
+
+.hero-carousel .hero-nav-next::before {
+  transform: rotate(45deg);
+  margin-right: 4px;
+}
+
+/* indicator dots */
+.hero-carousel .hero-dots {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px 0;
+}
+
+.hero-carousel .hero-dot {
+  width: 12px;
+  height: 12px;
+  padding: 0;
+  border: 2px solid var(--text-color);
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.hero-carousel .hero-dot:hover {
+  background: var(--dark-color);
+}
+
+.hero-carousel .hero-dot.is-active {
+  background: var(--accent-color);
+  border-color: var(--accent-color);
+}
+
+/* ============================================================
+ * Image-only hero (adventure detail lead image)
+ * ============================================================ */
+.hero.hero-image-only picture img {
+  aspect-ratio: auto;
+  width: 100%;
+  max-height: 420px;
+  object-fit: cover;
+}
+
+/* ============================================================
+ * Tablet / desktop
+ * ============================================================ */
 @media (width >= 900px) {
   .hero:not(.hero-image-only) picture img {
     aspect-ratio: 2 / 1;
   }
 
-  .hero:not(.hero-image-only) > div:last-child {
+  /* SINGLE hero: overlaid inset white panel */
+  .hero-single > div:last-child {
     max-width: calc(100% - 88px);
     margin: -180px auto 0;
     padding: 0 28px 18px;
     background-color: var(--background-color);
   }
 
-  /* first child of the panel keeps its 18px top breathing room via the h2 margin */
-  .hero:not(.hero-image-only) > div:last-child h2 {
+  .hero-single > div:last-child h2 {
     margin-top: 18px;
   }
-}
 
-/* --- Image-only hero (adventure detail lead image) ---
- * No overlay panel; a plain contained banner with a capped height so it does not
- * dominate the page or overlap the title/header. */
-.hero.hero-image-only picture img {
-  aspect-ratio: auto;
-  width: 100%;
-  max-height: 420px;
-  object-fit: cover;
+  /* CAROUSEL: overlay the text panel bottom-left over the image */
+  .hero-carousel .hero-slide-content {
+    position: absolute;
+    left: 44px;
+    bottom: 44px;
+    max-width: 520px;
+    padding: 28px 32px;
+    background-color: var(--background-color);
+  }
+
+  .hero-carousel .hero-slide-content h2 {
+    margin-top: 0;
+  }
+
+  /* dots overlaid near the bottom */
+  .hero-carousel .hero-dots {
+    position: absolute;
+    right: 44px;
+    bottom: 24px;
+    padding: 0;
+  }
 }
