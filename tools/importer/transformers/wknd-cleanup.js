@@ -117,6 +117,12 @@ export default function transform(hookName, element, payload) {
       'script',
     ]);
 
+    // Drop empty headings (e.g. a stray <h3></h3> spacer between FAQ items) — they
+    // add noise and produce empty anchors in the imported markup.
+    element.querySelectorAll('h1, h2, h3, h4, h5, h6').forEach((h) => {
+      if (!h.textContent.trim() && !h.querySelector('img, picture')) h.remove();
+    });
+
     // Strip AEM instrumentation: data-cmp-* attributes, component/carousel id hashes,
     // and aem-Grid* layout helper classes. Keep semantic content and cmp-* classes.
     element.querySelectorAll('*').forEach((el) => {

@@ -112,6 +112,57 @@
           ]
         }
       ]
+    },
+    {
+      "name": "faqs",
+      "urls": [
+        "https://wknd.site/us/en/faqs.html"
+      ],
+      "coverageGaps": [],
+      "description": "FAQs: page title, intro paragraph, linear list of question headings + answer paragraphs (default content), contact info.",
+      "blocks": []
+    },
+    {
+      "name": "adventures-listing",
+      "urls": [
+        "https://wknd.site/us/en/adventures.html"
+      ],
+      "coverageGaps": [],
+      "description": "Adventures landing: title, hero teaser (Experience the world with us), Current Adventures card grid.",
+      "blocks": [
+        {
+          "name": "cards",
+          "instances": [
+            ".image-list.list"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "adventure",
+      "urls": [
+        "https://wknd.site/us/en/adventures/climbing-new-zealand.html",
+        "https://wknd.site/us/en/adventures/west-coast-cycling.html",
+        "https://wknd.site/us/en/adventures/tahoe-skiing.html",
+        "https://wknd.site/us/en/adventures/bali-surf-camp.html",
+        "https://wknd.site/us/en/adventures/napa-wine-tasting.html"
+      ],
+      "coverageGaps": [],
+      "description": "Adventure detail: hero image (carousel first slide), title, trip specs sidebar (adventure-specs), overview body with images, related trips.",
+      "blocks": [
+        {
+          "name": "hero",
+          "instances": [
+            ".carousel.panelcontainer"
+          ]
+        },
+        {
+          "name": "adventure-specs",
+          "instances": [
+            ".cmp-contentfragment__elements"
+          ]
+        }
+      ]
     }
   ]
 }
