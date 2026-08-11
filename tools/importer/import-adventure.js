@@ -20,6 +20,10 @@ const PAGE_TEMPLATE = {
   description: 'Adventure detail: hero image, title, trip specs, overview body, related trips.',
   urls: [
     'https://wknd.site/us/en/adventures/climbing-new-zealand.html',
+    'https://wknd.site/us/en/adventures/west-coast-cycling.html',
+    'https://wknd.site/us/en/adventures/tahoe-skiing.html',
+    'https://wknd.site/us/en/adventures/bali-surf-camp.html',
+    'https://wknd.site/us/en/adventures/napa-wine-tasting.html',
   ],
   blocks: [
     {

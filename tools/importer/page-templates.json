@@ -141,7 +141,11 @@
     {
       "name": "adventure",
       "urls": [
-        "https://wknd.site/us/en/adventures/climbing-new-zealand.html"
+        "https://wknd.site/us/en/adventures/climbing-new-zealand.html",
+        "https://wknd.site/us/en/adventures/west-coast-cycling.html",
+        "https://wknd.site/us/en/adventures/tahoe-skiing.html",
+        "https://wknd.site/us/en/adventures/bali-surf-camp.html",
+        "https://wknd.site/us/en/adventures/napa-wine-tasting.html"
       ],
       "coverageGaps": [],
       "description": "Adventure detail: hero image (carousel first slide), title, trip specs (default content), overview body with images, related trips.",
