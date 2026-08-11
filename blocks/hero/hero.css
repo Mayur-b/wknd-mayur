@@ -99,6 +99,7 @@
  * ============================================================ */
 .hero-carousel {
   position: relative;
+  margin-bottom: 40px; /* breathing room before the next section (featured article) */
 }
 
 /* Stack every slide in the same grid cell so they overlap and the track sizes to
