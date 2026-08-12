@@ -43,7 +43,15 @@ function renderItem(article) {
   if (article.image) {
     const imageWrap = document.createElement('span');
     imageWrap.className = 'article-list-image';
-    imageWrap.append(createOptimizedPicture(article.image, article.title, false, [{ width: '400' }]));
+    const picture = createOptimizedPicture(article.image, article.title, false, [{ width: '400' }]);
+    // Explicit dimensions (13:10 ratio from article-list.css) so the browser
+    // reserves space (no CLS) and Lighthouse's width/height audit passes.
+    const img = picture.querySelector('img');
+    if (img) {
+      img.setAttribute('width', '400');
+      img.setAttribute('height', '308');
+    }
+    imageWrap.append(picture);
     link.append(imageWrap);
   }
 

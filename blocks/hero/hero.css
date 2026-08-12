@@ -36,6 +36,7 @@
   object-fit: cover;
 }
 
+.hero h1,
 .hero h2 {
   margin: 18px 0 0;
   font-family: var(--heading-font-family);
@@ -106,7 +107,6 @@
  * the tallest slide. Only the active slide is visible (fade). No position toggling,
  * so switching slides never changes document flow / height. */
 .hero-carousel .hero-slides {
-  list-style: none;
   margin: 0;
   padding: 0;
   display: grid;
@@ -234,6 +234,7 @@
     background-color: var(--background-color);
   }
 
+  .hero-single > div:last-child h1,
   .hero-single > div:last-child h2 {
     margin-top: 18px;
   }
@@ -248,6 +249,7 @@
     background-color: var(--background-color);
   }
 
+  .hero-carousel .hero-slide-content h1,
   .hero-carousel .hero-slide-content h2 {
     margin-top: 0;
   }
