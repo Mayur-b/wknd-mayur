@@ -119,8 +119,16 @@
         "https://wknd.site/us/en/faqs.html"
       ],
       "coverageGaps": [],
-      "description": "FAQs: page title, intro paragraph, linear list of question headings + answer paragraphs (default content), contact info.",
-      "blocks": []
+      "description": "FAQs: page title, intro paragraph, Q&A accordion (collapsible question headings + answer paragraphs), contact info.",
+      "blocks": [
+        {
+          "name": "accordion",
+          "instances": [
+            ".accordion.panelcontainer .cmp-accordion",
+            ".cmp-accordion"
+          ]
+        }
+      ]
     },
     {
       "name": "adventures-listing",

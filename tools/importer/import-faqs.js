@@ -1,11 +1,16 @@
 /* eslint-disable */
 /* global WebImporter */
 
+// PARSER IMPORTS
+import accordionParser from './parsers/accordion.js';
+
 // TRANSFORMER IMPORTS
 import wkndCleanupTransformer from './transformers/wknd-cleanup.js';
 
-// no block parsers — FAQs is entirely default content (headings + paragraphs)
-const parsers = {};
+// PARSER REGISTRY
+const parsers = {
+  accordion: accordionParser,
+};
 
 const transformers = [
   wkndCleanupTransformer,
@@ -13,11 +18,19 @@ const transformers = [
 
 const PAGE_TEMPLATE = {
   name: 'faqs',
-  description: 'FAQs: page title, intro paragraph, linear Q&A (default content).',
+  description: 'FAQs: page title, intro paragraph, Q&A accordion, contact info.',
   urls: [
     'https://wknd.site/us/en/faqs.html',
   ],
-  blocks: [],
+  blocks: [
+    {
+      name: 'accordion',
+      instances: [
+        '.accordion.panelcontainer .cmp-accordion',
+        '.cmp-accordion',
+      ],
+    },
+  ],
 };
 
 function executeTransformers(hookName, element, payload) {
