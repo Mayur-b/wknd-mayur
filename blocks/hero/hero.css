@@ -136,16 +136,18 @@
   padding: 4px 14px 24px;
 }
 
-/* prev / next controls */
+/* prev / next controls — vertically centered on the left and right edges */
 .hero-carousel .hero-controls {
   position: absolute;
-  top: 0;
-  right: 0;
+  inset: 0;
   display: flex;
-  gap: 2px;
+  align-items: center;
+  justify-content: space-between;
+  pointer-events: none; /* clicks pass through the strip; only buttons are targets */
 }
 
 .hero-carousel .hero-nav {
+  pointer-events: auto; /* re-enable; the wrapping strip has pointer-events:none */
   width: 44px;
   height: 44px;
   border: none;
