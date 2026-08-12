@@ -59,6 +59,19 @@ header nav a:any-link {
   color: currentcolor;
 }
 
+/* Ensure nav / tools links meet the 24x24 minimum tap target (WCAG 2.5.8 /
+ * Lighthouse target-size). The link box grows to at least 24px in both
+ * dimensions; text stays centered so the visual layout is unchanged. min-width
+ * matters for short labels like the "EN" language toggle. */
+header nav .nav-sections a:any-link,
+header nav .nav-tools a:any-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  min-height: 24px;
+}
+
 /* hamburger */
 header nav .nav-hamburger {
   grid-area: hamburger;

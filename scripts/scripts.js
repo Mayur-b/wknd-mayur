@@ -151,6 +151,37 @@ function decorateButtons(main) {
 }
 
 /**
+ * Normalise the document's heading outline so no level is skipped (WCAG 1.3.1 /
+ * Lighthouse "heading-order"). Authored content sometimes jumps levels — e.g. an
+ * article title <h1> followed directly by an <h4> byline, a sidebar <h5>, or a
+ * footer <h4> after an <h2>. Rather than rewrite authored markup or change the
+ * visual design, walk the headings in document order and, whenever a heading
+ * would descend more than one level below the previous one, pin its accessible
+ * level with aria-level (which assistive tech and axe/Lighthouse honour). The
+ * visible tag — and therefore all CSS styling keyed off it — is left untouched.
+ * Idempotent: re-running clears stale aria-level attributes it previously set.
+ * @param {Document|Element} scope root to scan (defaults to document)
+ */
+export function normalizeHeadingLevels(scope = document) {
+  const headings = [...scope.querySelectorAll('h1, h2, h3, h4, h5, h6')];
+  let prev = 0;
+  headings.forEach((h) => {
+    const native = Number(h.tagName[1]);
+    if (prev && native > prev + 1) {
+      const level = prev + 1;
+      h.setAttribute('aria-level', String(level));
+      prev = level;
+    } else {
+      if (h.dataset.headingNormalized || h.hasAttribute('aria-level')) {
+        h.removeAttribute('aria-level');
+      }
+      prev = native;
+    }
+    if (h.getAttribute('aria-level')) h.dataset.headingNormalized = 'true';
+  });
+}
+
+/**
  * Decorates the main element.
  * @param {Element} main The main element
  */
@@ -209,7 +240,11 @@ async function loadLazy(doc) {
   const element = hash ? doc.getElementById(hash.substring(1)) : false;
   if (hash && element) element.scrollIntoView();
 
-  loadFooter(doc.querySelector('body > footer'));
+  await loadFooter(doc.querySelector('body > footer'));
+
+  // Fix the accessible heading outline once header/main/footer are all present,
+  // so cross-section level skips (e.g. main <h2> -> footer <h4>) are handled.
+  normalizeHeadingLevels(doc);
 
   loadCSS(`${window.hlx.codeBasePath}/styles/lazy-styles.css`);
   loadFonts();

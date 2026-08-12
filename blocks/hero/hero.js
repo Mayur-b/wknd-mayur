@@ -14,6 +14,32 @@ function collectSlideText(row, slide) {
   row.querySelectorAll('h1, h2, h3, h4, h5, h6, p').forEach((el) => slide.text.push(el));
 }
 
+/**
+ * Ensure the page has a single top-level heading. When the hero is the first
+ * block on the page and no <h1> exists yet (home/landing pages, where the hero
+ * heading IS the page title), promote the hero's first heading to an <h1>.
+ * Pages that already carry their own <h1> (articles, adventure details) are
+ * left untouched. Replaces the element in place so it keeps its text/children.
+ * @param {Element} block the hero block
+ * @param {Array} slides collected slides
+ */
+function ensurePageHeading(block, slides) {
+  const main = block.closest('main');
+  if (!main || main.querySelector('h1')) return;
+  const isFirstBlock = !block.closest('.section')?.previousElementSibling;
+  if (!isFirstBlock) return;
+  const first = slides.find((s) => s.text.some((el) => /^H[1-6]$/.test(el.tagName)));
+  if (!first) return;
+  const heading = first.text.find((el) => /^H[1-6]$/.test(el.tagName));
+  if (!heading || heading.tagName === 'H1') return;
+  const h1 = document.createElement('h1');
+  h1.id = heading.id;
+  while (heading.firstChild) h1.append(heading.firstChild);
+  heading.replaceWith(h1);
+  // keep the slide's text array pointing at the live element
+  first.text[first.text.indexOf(heading)] = h1;
+}
+
 function buildSlides(block) {
   const rows = [...block.children];
   const slides = [];
@@ -34,28 +60,31 @@ function buildSlides(block) {
 }
 
 function renderSlide(slide, index) {
-  const li = document.createElement('li');
-  li.className = 'hero-slide';
-  li.setAttribute('role', 'group');
-  li.setAttribute('aria-roledescription', 'slide');
-  li.setAttribute('aria-label', `Slide ${index + 1}`);
+  // Use a <div> (not <li>) so the ARIA carousel roles are valid — role="group"
+  // is not an allowed role on a list item, and a <ul> may only contain <li>.
+  const el = document.createElement('div');
+  el.className = 'hero-slide';
+  el.setAttribute('role', 'group');
+  el.setAttribute('aria-roledescription', 'slide');
+  el.setAttribute('aria-label', `Slide ${index + 1}`);
 
   const imageWrap = document.createElement('div');
   imageWrap.className = 'hero-slide-image';
   if (slide.picture) imageWrap.append(slide.picture.closest('picture') || slide.picture);
-  li.append(imageWrap);
+  el.append(imageWrap);
 
   if (slide.text.length) {
     const content = document.createElement('div');
     content.className = 'hero-slide-content';
-    slide.text.forEach((el) => content.append(el));
-    li.append(content);
+    slide.text.forEach((textEl) => content.append(textEl));
+    el.append(content);
   }
-  return li;
+  return el;
 }
 
 export default function decorate(block) {
   const slides = buildSlides(block);
+  ensurePageHeading(block, slides);
 
   // Image-only (no text anywhere) → plain contained banner.
   if (slides.length <= 1 && !slides.some((s) => s.text.length)) {
@@ -71,11 +100,11 @@ export default function decorate(block) {
   // Single slide with text → static hero (keep existing overlay design).
   if (slides.length === 1) {
     block.classList.add('hero-single');
-    const li = renderSlide(slides[0], 0);
+    const slideEl = renderSlide(slides[0], 0);
     block.textContent = '';
-    // unwrap the <li> into the block for the existing single-hero CSS
-    const img = li.querySelector('.hero-slide-image');
-    const content = li.querySelector('.hero-slide-content');
+    // unwrap the slide into the block for the existing single-hero CSS
+    const img = slideEl.querySelector('.hero-slide-image');
+    const content = slideEl.querySelector('.hero-slide-content');
     block.append(img);
     if (content) block.append(content);
     return;
@@ -87,7 +116,7 @@ export default function decorate(block) {
   block.setAttribute('aria-roledescription', 'carousel');
   block.setAttribute('aria-label', 'Hero carousel');
 
-  const track = document.createElement('ul');
+  const track = document.createElement('div');
   track.className = 'hero-slides';
   slides.forEach((slide, i) => track.append(renderSlide(slide, i)));
 

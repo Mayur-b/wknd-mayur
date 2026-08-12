@@ -77,7 +77,18 @@ export default function decorate(block) {
     });
     ul.append(li);
   });
-  ul.querySelectorAll('picture > img').forEach((img) => img.closest('picture').replaceWith(createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }])));
+  ul.querySelectorAll('picture > img').forEach((img) => {
+    const optimized = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
+    // Set explicit dimensions so the browser reserves space (no layout shift)
+    // and Lighthouse's "explicit width/height" audit passes. Card thumbnails use
+    // the 13:10 ratio defined in cards.css (750x577 at the requested width).
+    const optImg = optimized.querySelector('img');
+    if (optImg) {
+      optImg.setAttribute('width', '750');
+      optImg.setAttribute('height', '577');
+    }
+    img.closest('picture').replaceWith(optimized);
+  });
   block.replaceChildren(ul);
 
   setupAdventureFilter(block, ul);

@@ -126,3 +126,13 @@ footer .footer .section:nth-child(4) p:first-child {
     padding-top: 24px;
   }
 }
+
+/* Nav + social links: ensure a >= 24px tap target (WCAG 2.5.8 / Lighthouse
+ * target-size) without moving the text. The link box grows vertically only;
+ * horizontal gaps between links already exceed 24px. */
+footer .footer .section:nth-child(2) a:any-link,
+footer .footer .section:nth-child(3) ul a:any-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+}
