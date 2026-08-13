@@ -107,24 +107,58 @@
   justify-content: center;
 }
 
-/* ---- Profile grid: cards flow across; default-content headings break rows ---- */
-.author-profiles .author-wrapper {
-  box-sizing: border-box;
-  display: inline-block;
-  vertical-align: top;
-  width: 100%;               /* mobile: one card per row */
+/* ---- Profile grid ----
+ * Lay the profile listing out as a centred content-box grid so the cards align
+ * with the intro/section headings (previously the cards escaped to the raw
+ * section edge). Section headings ("Our Contributors", "WKND Guides") and the
+ * intro span the full row; the author cards flow into columns with a gutter.
+ * 1 col mobile / 2 col tablet / 4 col desktop, left-aligned (a shorter final
+ * row — e.g. the 3 guides — stays left-aligned, matching the source). */
+main .section.author-profiles {
+  display: grid;
+  grid-template-columns: 1fr;
+  column-gap: 28px;
+  align-items: start;
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 0 24px;
+}
+
+/* intro + section-heading blocks span the full width and drop their own box */
+main .section.author-profiles > .default-content-wrapper {
+  grid-column: 1 / -1;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* each author card occupies one grid column (reset the byline-era sizing) */
+main .section.author-profiles > .author-wrapper {
+  width: auto;
+  max-width: none;
   margin: 0 0 32px;
-  padding: 0 14px;           /* source column gutter */
+  padding: 0;
+}
+
+/* WKND signature yellow underline under the section headings (h2 only, not the
+ * page's <h1> "About Us"). */
+main .section.author-profiles > .default-content-wrapper h2::after {
+  content: '';
+  display: block;
+  width: 84px;
+  margin-top: 8px;
+  border-bottom: 2px solid var(--accent-color);
 }
 
 @media (width >= 600px) {
-  .author-profiles .author-wrapper {
-    width: 50%;              /* tablet: two-up */
+  main .section.author-profiles {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    padding: 0 32px;
   }
 }
 
 @media (width >= 900px) {
-  .author-profiles .author-wrapper {
-    width: 25%;              /* desktop: four-up contributors / three-up guides */
+  main .section.author-profiles {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }
