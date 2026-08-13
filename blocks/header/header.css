@@ -200,6 +200,24 @@ header nav .nav-sections a:any-link {
   text-decoration: none;
 }
 
+/* Top-level nav option — padded box so the hover highlight reads as a filled
+ * tile rather than tight to the text. */
+header nav .nav-sections ul > li > a:any-link {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 12px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* Highlight the hovered / focused option, and the active option for the current
+ * page (aria-current set by header.js), in the WKND accent yellow. */
+header nav .nav-sections ul > li > a:hover,
+header nav .nav-sections ul > li > a:focus-visible,
+header nav .nav-sections ul > li > a[aria-current='page'] {
+  background-color: var(--accent-color);
+  color: var(--text-color);
+}
+
 header nav .nav-sections ul > li > ul {
   margin-top: 0;
 }
