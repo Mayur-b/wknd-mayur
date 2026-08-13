@@ -228,7 +228,13 @@
     aspect-ratio: 2 / 1;
   }
 
-  /* SINGLE hero: overlaid inset white panel */
+  /* SINGLE hero: overlaid inset white panel. The panel is pulled up 180px over
+   * the image; when it is shorter than 180px the image overflows the block box,
+   * so reserve clearance below it for the next section. */
+  .hero-single {
+    margin-bottom: 96px;
+  }
+
   .hero-single > div:last-child {
     max-width: calc(100% - 88px);
     margin: -180px auto 0;

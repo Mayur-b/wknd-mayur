@@ -120,6 +120,16 @@
   text-decoration: underline;
 }
 
+/* Section heading above a cards grid (e.g. "Current Adventures", "Where do you
+ * want to go?") — WKND signature accent-yellow underline, matching the source. */
+.cards-container .default-content-wrapper h2::after {
+  content: '';
+  display: block;
+  width: 84px;
+  margin-top: 8px;
+  border-bottom: 2px solid var(--accent-color);
+}
+
 /* Tablet — 2 columns */
 @media (width >= 600px) {
   .cards > ul {
