@@ -1,0 +1,91 @@
+/*
+ * Block: tabs — WKND adventure "trip details" tabs.
+ * Values extracted from wknd.site (.cmp-tabs) computed styles.
+ *
+ * Decorated DOM (from tabs.js):
+ *   .tabs.block
+ *     > .tabs-list[role=tablist] > button.tabs-tab[role=tab]
+ *     > .tabs-panel[role=tabpanel]
+ */
+
+.tabs .tabs-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  margin: 0 0 24px;
+  padding: 0;
+}
+
+.tabs .tabs-list button.tabs-tab {
+  flex: 0 0 auto;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  padding: 8px 16px;
+  background-color: transparent;
+  color: var(--text-color);
+  font-family: var(--body-font-family);
+  font-size: var(--body-font-size-xs);
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.tabs .tabs-list button.tabs-tab:hover {
+  background-color: var(--light-color);
+}
+
+/* Active tab — dark fill, inverse text (source .cmp-tabs__tab--active). */
+.tabs .tabs-list button.tabs-tab[aria-selected='true'] {
+  background-color: var(--dark-color);
+  color: #fff;
+  cursor: initial;
+}
+
+.tabs .tabs-list button.tabs-tab:focus-visible {
+  outline: 2px solid var(--text-color);
+  outline-offset: 2px;
+}
+
+/* Panel */
+.tabs .tabs-panel {
+  margin: 0;
+}
+
+.tabs .tabs-panel[aria-hidden='true'] {
+  display: none;
+}
+
+.tabs .tabs-panel > *:first-child {
+  margin-top: 0;
+}
+
+.tabs .tabs-panel p {
+  font-family: var(--body-font-family);
+  font-size: 18px;
+  line-height: 1.75;
+  color: var(--text-color);
+}
+
+.tabs .tabs-panel img {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 24px 0;
+}
+
+.tabs .tabs-panel ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+/* the label cell may arrive wrapped in a <p> — flatten it inside the button */
+.tabs .tabs-list button.tabs-tab p {
+  margin: 0;
+  font: inherit;
+  color: inherit;
+  text-transform: inherit;
+}

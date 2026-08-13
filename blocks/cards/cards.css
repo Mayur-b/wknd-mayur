@@ -42,13 +42,14 @@
   color: var(--accent-text-color);
 }
 
-/* Grid — mobile first: 1 column */
+/* Grid — mobile first: 1 column. minmax(0, 1fr) lets tracks shrink below their
+ * content's min-content width so a nowrap description can't stretch the column. */
 .cards > ul {
   list-style: none;
   margin: 0;
   padding: 0;
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(0, 1fr);
   gap: 32px 14px;   /* row-gap 32px (source vertical), column-gap 14px (source horizontal gutter) */
 }
 
@@ -92,6 +93,16 @@
   text-transform: uppercase;   /* source description is uppercase */
 }
 
+/* Description — clamp to a single line that fits the card width, with an
+ * ellipsis for the overflow. Block-level so it sits below the title link. */
+.cards .cards-card-body .cards-card-description {
+  display: block;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 /* Title link — bold, dark, uppercase; block so the description drops below it */
 .cards .cards-card-body p a:any-link {
   display: block;
@@ -109,16 +120,26 @@
   text-decoration: underline;
 }
 
+/* Section heading above a cards grid (e.g. "Current Adventures", "Where do you
+ * want to go?") — WKND signature accent-yellow underline, matching the source. */
+.cards-container .default-content-wrapper h2::after {
+  content: '';
+  display: block;
+  width: 84px;
+  margin-top: 8px;
+  border-bottom: 2px solid var(--accent-color);
+}
+
 /* Tablet — 2 columns */
 @media (width >= 600px) {
   .cards > ul {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
 /* Desktop — 4 columns */
 @media (width >= 900px) {
   .cards > ul {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }

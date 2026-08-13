@@ -258,6 +258,19 @@
 }
 
 /* ============================================================
+ * Article-page section headings — WKND signature yellow underline.
+ *   Each in-body section heading (e.g. "The front", "Clear skies") gets a short
+ *   accent-yellow rule beneath it, matching the source .cmp-title on articles.
+ * ============================================================ */
+main .section.magazine-article .default-content-wrapper h2::after {
+  content: '';
+  display: block;
+  width: 84px;
+  margin-top: 8px;
+  border-bottom: 2px solid var(--accent-color);
+}
+
+/* ============================================================
  * Article-page layout — right-hand sidebar (matches WKND source)
  *   The article template renders a single flat section containing, in order:
  *     [body default-content] [author block] [article-list (SHARE sidebar)]

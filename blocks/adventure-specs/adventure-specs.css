@@ -37,10 +37,12 @@
 }
 
 /* ============================================================
- * Adventure detail page layout — specs sidebar + body
+ * Adventure detail page layout — specs sidebar + tabbed body
  *   Section wrappers (in order): [hero] [title default-content]
- *   [adventure-specs] [share heading + body default-content]
- *   On desktop: specs pinned to a narrow left column, everything else right.
+ *   [adventure-specs] [share heading default-content] [tabs]
+ *   On desktop: hero + title span the full width; the specs and the
+ *   "Share this Adventure" heading stack in a narrow left column; the tabbed
+ *   trip details fill the wide right column.
  * ============================================================ */
 @media (width >= 900px) {
   main .section.adventure {
@@ -69,13 +71,16 @@
     grid-column: 1 / -1;
   }
 
-  /* specs -> left column */
-  main .section.adventure > .adventure-specs-wrapper {
+  /* left column: specs + the "Share this Adventure" heading that follows it */
+  main .section.adventure > .adventure-specs-wrapper,
+  main .section.adventure > .adventure-specs-wrapper + .default-content-wrapper {
     grid-column: 1;
   }
 
-  /* remaining body content -> right column */
-  main .section.adventure > .default-content-wrapper:last-of-type {
+  /* right column: the tabbed trip details, aligned to the top of the specs */
+  main .section.adventure > .tabs-wrapper {
     grid-column: 2;
+    grid-row: 3 / span 2;
+    align-self: start;
   }
 }

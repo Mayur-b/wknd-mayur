@@ -74,6 +74,85 @@ function buildWidgetAutoBlocks(main) {
 }
 
 /**
+ * Auto-block the magazine "Members Only" section. The content is authored as
+ * flat default content: a "Members Only" heading + a sign-in intro, then two
+ * locked teasers each authored as [h2 title, description p, "Read More" p,
+ * image p]. Group each teaser into a row of a `members-only` block so it can be
+ * rendered as a greyed-out locked card with a lock badge (see the block). The
+ * "Members Only" heading and intro paragraph are left as default content.
+ * @param {Element} main The container element
+ */
+function buildMembersOnlyBlock(main) {
+  const heading = [...main.querySelectorAll('h1, h2, h3, h4, h5, h6')]
+    .find((h) => /^members only$/i.test(h.textContent.trim()));
+  if (!heading) return;
+  const wrapper = heading.parentElement;
+  if (!wrapper || wrapper.querySelector('.members-only')) return;
+
+  // Everything after the heading + its intro paragraph, grouped into cards.
+  // A new card starts at each heading (the teaser title).
+  const rows = [];
+  let card = null;
+  let started = false;
+  [...wrapper.children].forEach((el) => {
+    if (el === heading) { started = true; return; }
+    if (!started) return;
+    const isHeading = /^H[1-6]$/.test(el.tagName);
+    // The first element after the "Members Only" heading is the sign-in intro —
+    // keep it as default content (skip until the first teaser heading).
+    if (!card && !isHeading) return;
+    if (isHeading) {
+      card = [el];
+      rows.push(card);
+    } else if (card) {
+      card.push(el);
+    }
+  });
+
+  if (!rows.length) return;
+
+  // Build one block cell per card (each cell holds the card's elements).
+  const cells = rows.map((els) => [{ elems: els }]);
+  const block = buildBlock('members-only', cells);
+  wrapper.append(block);
+}
+
+/**
+ * Auto-block the adventures listing hero. The listing authors its intro as flat
+ * default content: an <h1> page title, then a teaser (an <h2> + description <p>
+ * + a <p> holding the lead image). The original WKND renders that teaser as a
+ * hero with the text in a white panel cut out over the image bottom. Group the
+ * teaser trio into a `hero` block (image row + heading/description row) so it
+ * picks up the existing .hero-single cutout treatment. The <h1> page title is
+ * left in place above the hero. No-op on pages without this exact shape.
+ * @param {Element} main The container element
+ */
+function buildAdventuresHero(main) {
+  // Runs before decorateSections, so match the raw section <div> (not a
+  // .default-content-wrapper, which doesn't exist yet).
+  const h1 = main.querySelector('h1');
+  if (!h1) return;
+  const wrapper = h1.parentElement;
+  if (wrapper.querySelector('.hero')) return;
+
+  const heading = h1.nextElementSibling; // expected <h2>
+  if (!heading || !/^H[2-6]$/.test(heading.tagName)) return;
+  const desc = heading.nextElementSibling; // expected description <p>
+  if (!desc || desc.tagName !== 'P' || desc.querySelector('picture, img')) return;
+  const imageP = desc.nextElementSibling; // expected <p> wrapping the image
+  if (!imageP || !imageP.querySelector('picture, img')) return;
+
+  const picture = imageP.querySelector('picture') || imageP.querySelector('img');
+  // hero rows: [image] then [heading + description] → single-hero cutout.
+  const block = buildBlock('hero', [
+    [{ elems: [picture] }],
+    [{ elems: [heading, desc] }],
+  ]);
+  imageP.remove();
+  h1.after(block);
+}
+
+/**
  * Builds all synthetic blocks in a container element.
  * @param {Element} main The container element
  */
@@ -97,6 +176,8 @@ function buildAutoBlocks(main) {
       });
     }
     buildWidgetAutoBlocks(main);
+    buildMembersOnlyBlock(main);
+    buildAdventuresHero(main);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error('Auto Blocking failed', error);
@@ -182,6 +263,51 @@ export function normalizeHeadingLevels(scope = document) {
 }
 
 /**
+ * Add a "Magazine › <article>" breadcrumb to the top of magazine article pages,
+ * matching the WKND source. Only runs on article detail pages (a page below the
+ * magazine listing, e.g. /us/en/magazine/arctic-surfing) — never on the listing
+ * itself. The trail is derived from the URL and the page's <h1>/title, so no
+ * authored content is needed. Idempotent.
+ * @param {Element} main The main element
+ */
+function buildBreadcrumb(main) {
+  // Only decorate the page's real, attached <main>. loadFragment() runs
+  // decorateMain() on detached <main>s for the header/footer fragments — skip
+  // those so the breadcrumb isn't duplicated into the nav/footer.
+  if (!main.isConnected || main !== document.querySelector('main')) return;
+  const path = window.location.pathname.replace(/^\/content(?=\/)/, '').replace(/\.html$/, '');
+  const match = path.match(/^(\/[a-z-]+\/[a-z-]+\/magazine)\/[^/]+$/i);
+  if (!match) return; // not a magazine article detail page
+  if (main.querySelector('.breadcrumb')) return;
+
+  const magazinePath = match[1];
+  const title = (main.querySelector('h1')?.textContent || document.title || '').trim();
+
+  const nav = document.createElement('nav');
+  nav.className = 'breadcrumb';
+  nav.setAttribute('aria-label', 'Breadcrumb');
+
+  const list = document.createElement('ol');
+  list.className = 'breadcrumb-list';
+
+  const parent = document.createElement('li');
+  parent.className = 'breadcrumb-item';
+  const parentLink = document.createElement('a');
+  parentLink.href = magazinePath;
+  parentLink.textContent = 'Magazine';
+  parent.append(parentLink);
+
+  const current = document.createElement('li');
+  current.className = 'breadcrumb-item breadcrumb-item-current';
+  current.setAttribute('aria-current', 'page');
+  current.textContent = title;
+
+  list.append(parent, current);
+  nav.append(list);
+  main.prepend(nav);
+}
+
+/**
  * Decorates the main element.
  * @param {Element} main The main element
  */
@@ -192,6 +318,7 @@ export function decorateMain(main) {
   decorateSections(main);
   decorateBlocks(main);
   decorateButtons(main);
+  buildBreadcrumb(main);
 }
 
 /**
