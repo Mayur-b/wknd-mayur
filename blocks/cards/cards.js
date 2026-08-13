@@ -72,8 +72,28 @@ export default function decorate(block) {
     const li = document.createElement('li');
     while (row.firstElementChild) li.append(row.firstElementChild);
     [...li.children].forEach((div) => {
-      if (div.children.length === 1 && div.querySelector('picture')) div.className = 'cards-card-image';
-      else div.className = 'cards-card-body';
+      if (div.children.length === 1 && div.querySelector('picture')) {
+        div.className = 'cards-card-image';
+      } else {
+        div.className = 'cards-card-body';
+        // The body <p> holds the title link followed by a bare description text
+        // node. Wrap that trailing description in a span so it can be truncated
+        // to a single line with an ellipsis (a bare text node can't be).
+        const p = div.querySelector('p');
+        const link = p?.querySelector('a');
+        if (p && link) {
+          const desc = document.createElement('span');
+          desc.className = 'cards-card-description';
+          // move everything after the title link into the span
+          let node = link.nextSibling;
+          while (node) {
+            const next = node.nextSibling;
+            desc.append(node);
+            node = next;
+          }
+          if (desc.textContent.trim()) p.append(desc);
+        }
+      }
     });
     ul.append(li);
   });
