@@ -4,6 +4,7 @@
 // PARSER IMPORTS
 import heroParser from './parsers/hero.js';
 import adventureSpecsParser from './parsers/adventure-specs.js';
+import tabsParser from './parsers/tabs.js';
 
 // TRANSFORMER IMPORTS
 import wkndCleanupTransformer from './transformers/wknd-cleanup.js';
@@ -11,6 +12,7 @@ import wkndCleanupTransformer from './transformers/wknd-cleanup.js';
 const parsers = {
   hero: heroParser,
   'adventure-specs': adventureSpecsParser,
+  tabs: tabsParser,
 };
 
 const transformers = [
@@ -32,6 +34,16 @@ const PAGE_TEMPLATE = {
       name: 'hero',
       instances: [
         '.carousel.panelcontainer',
+      ],
+    },
+    // tabs MUST run before adventure-specs: the tab panels contain
+    // .cmp-contentfragment__elements too, so parsing (and detaching) the tabs
+    // component first leaves only the specs sidebar fragment for adventure-specs.
+    {
+      name: 'tabs',
+      instances: [
+        '.tabs.cmp-tabs',
+        '.cmp-tabs',
       ],
     },
     {
