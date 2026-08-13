@@ -91,13 +91,21 @@
 .members-only .members-only-card-image img {
   display: block;
   width: 100%;
-  aspect-ratio: 16 / 10;
+  aspect-ratio: 13 / 10;
   object-fit: cover;
 }
 
-/* Tablet / desktop — two cards side by side (matches source). */
-@media (width >= 900px) {
+/* Tablet — two per row. */
+@media (width >= 600px) {
   .members-only {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Desktop — four compact cards fit across the viewport at once. */
+@media (width >= 900px) {
+  .members-only {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 32px 14px;
   }
 }
