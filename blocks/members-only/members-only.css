@@ -1,0 +1,103 @@
+/*
+ * Block: members-only — WKND locked "Members Only" teaser cards.
+ * Values extracted from wknd.site (.cmp-teaser--secure) computed styles.
+ *
+ * Decorated DOM (from members-only.js):
+ *   .members-only.block
+ *     > .members-only-card
+ *         > span.members-only-lock (yellow corner tab + lock glyph, full opacity)
+ *         > .members-only-card-body (title + desc + read-more) [greyed]
+ *         > .members-only-card-image > picture [greyed]
+ */
+
+.members-only {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 48px 28px;
+}
+
+.members-only .members-only-card {
+  position: relative;
+  margin: 0;
+}
+
+/* Locked content is greyed out; the lock badge below is exempted so it stays
+ * crisp and yellow. */
+.members-only .members-only-card-body,
+.members-only .members-only-card-image {
+  opacity: 0.65;
+}
+
+/* Yellow corner tab with a lock glyph, overlaid top-left of the card. */
+.members-only .members-only-lock {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  display: inline-flex;
+  padding: 12px;
+  color: #000;
+  background: linear-gradient(to left top, transparent 0, transparent 50%, var(--accent-color) 50%, var(--accent-color) 100%);
+}
+
+.members-only .members-only-lock svg {
+  width: 22px;
+  height: 22px;
+}
+
+/* Card body — order: title, description, read-more (image sits below). */
+.members-only .members-only-card-body {
+  margin: 0 0 18px;
+}
+
+.members-only .members-only-title {
+  margin: 0 0 6px 40px; /* clear the corner lock badge */
+  font-family: var(--body-font-family);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.4;
+  text-transform: uppercase;
+  color: var(--text-color);
+}
+
+.members-only .members-only-desc {
+  margin: 0 0 18px;
+  font-family: var(--body-font-family);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 21px;
+  text-transform: uppercase;
+  color: rgb(105 105 105);
+}
+
+/* Read More — disabled-looking grey pill (content is locked). */
+.members-only .members-only-readmore {
+  display: inline-block;
+  margin: 0;
+  padding: 7px 14px;
+  background-color: #ebebeb;
+  color: rgb(105 105 105);
+  font-family: var(--body-font-family);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.25;
+  text-transform: uppercase;
+}
+
+.members-only .members-only-card-image picture {
+  display: block;
+}
+
+.members-only .members-only-card-image img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+}
+
+/* Tablet / desktop — two cards side by side (matches source). */
+@media (width >= 900px) {
+  .members-only {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

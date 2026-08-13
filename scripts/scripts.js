@@ -74,6 +74,50 @@ function buildWidgetAutoBlocks(main) {
 }
 
 /**
+ * Auto-block the magazine "Members Only" section. The content is authored as
+ * flat default content: a "Members Only" heading + a sign-in intro, then two
+ * locked teasers each authored as [h2 title, description p, "Read More" p,
+ * image p]. Group each teaser into a row of a `members-only` block so it can be
+ * rendered as a greyed-out locked card with a lock badge (see the block). The
+ * "Members Only" heading and intro paragraph are left as default content.
+ * @param {Element} main The container element
+ */
+function buildMembersOnlyBlock(main) {
+  const heading = [...main.querySelectorAll('h1, h2, h3, h4, h5, h6')]
+    .find((h) => /^members only$/i.test(h.textContent.trim()));
+  if (!heading) return;
+  const wrapper = heading.parentElement;
+  if (!wrapper || wrapper.querySelector('.members-only')) return;
+
+  // Everything after the heading + its intro paragraph, grouped into cards.
+  // A new card starts at each heading (the teaser title).
+  const rows = [];
+  let card = null;
+  let started = false;
+  [...wrapper.children].forEach((el) => {
+    if (el === heading) { started = true; return; }
+    if (!started) return;
+    const isHeading = /^H[1-6]$/.test(el.tagName);
+    // The first element after the "Members Only" heading is the sign-in intro —
+    // keep it as default content (skip until the first teaser heading).
+    if (!card && !isHeading) return;
+    if (isHeading) {
+      card = [el];
+      rows.push(card);
+    } else if (card) {
+      card.push(el);
+    }
+  });
+
+  if (!rows.length) return;
+
+  // Build one block cell per card (each cell holds the card's elements).
+  const cells = rows.map((els) => [{ elems: els }]);
+  const block = buildBlock('members-only', cells);
+  wrapper.append(block);
+}
+
+/**
  * Builds all synthetic blocks in a container element.
  * @param {Element} main The container element
  */
@@ -97,6 +141,7 @@ function buildAutoBlocks(main) {
       });
     }
     buildWidgetAutoBlocks(main);
+    buildMembersOnlyBlock(main);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error('Auto Blocking failed', error);
