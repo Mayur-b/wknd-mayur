@@ -109,6 +109,47 @@ function toggleMenu(nav, navSections, forceExpanded = null) {
 }
 
 /**
+ * Normalise a path for comparison: drop the preview/DA `/content` prefix,
+ * a `.html` extension and any trailing slash.
+ * @param {string} path
+ * @returns {string}
+ */
+function normalizePath(path) {
+  return path
+    .replace(/^\/content(?=\/)/, '')
+    .replace(/\.html$/, '')
+    .replace(/\/+$/, '') || '/';
+}
+
+/**
+ * Mark the nav section that corresponds to the current page with
+ * aria-current="page" so it can be highlighted as the active tab. A section is
+ * active when the current path equals its link path OR is a descendant of it
+ * (e.g. /us/en/adventures/climbing-new-zealand activates "Adventures"). When
+ * several links match, the most specific (longest) one wins.
+ * @param {Element} navSections The nav-sections container
+ */
+function markActiveNavSection(navSections) {
+  const current = normalizePath(window.location.pathname);
+  const links = [...navSections.querySelectorAll('.default-content-wrapper > ul > li > a[href]')];
+  let best = null;
+  let bestLen = -1;
+  links.forEach((link) => {
+    const linkPath = normalizePath(new URL(link.href, window.location).pathname);
+    if (linkPath === '/') return; // skip a home/root link — it would match everything
+    const matches = current === linkPath || current.startsWith(`${linkPath}/`);
+    if (matches && linkPath.length > bestLen) {
+      best = link;
+      bestLen = linkPath.length;
+    }
+  });
+  if (best) {
+    best.setAttribute('aria-current', 'page');
+    best.closest('li').classList.add('nav-active');
+  }
+}
+
+/**
  * loads and decorates the header, mainly the nav
  * @param {Element} block The header block element
  */
@@ -139,6 +180,7 @@ export default async function decorate(block) {
 
   const navSections = nav.querySelector('.nav-sections');
   if (navSections) {
+    markActiveNavSection(navSections);
     navSections.querySelectorAll(':scope .default-content-wrapper > ul > li').forEach((navSection) => {
       if (navSection.querySelector('ul')) navSection.classList.add('nav-drop');
       navSection.addEventListener('click', () => {

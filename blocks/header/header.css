@@ -209,9 +209,11 @@ header nav .nav-sections ul > li > a:any-link {
   transition: background-color 0.2s ease, color 0.2s ease;
 }
 
-/* Highlight the hovered / focused option in the WKND accent yellow. */
+/* Highlight the hovered / focused option, and the active option for the current
+ * page (aria-current set by header.js), in the WKND accent yellow. */
 header nav .nav-sections ul > li > a:hover,
-header nav .nav-sections ul > li > a:focus-visible {
+header nav .nav-sections ul > li > a:focus-visible,
+header nav .nav-sections ul > li > a[aria-current='page'] {
   background-color: var(--accent-color);
   color: var(--text-color);
 }
