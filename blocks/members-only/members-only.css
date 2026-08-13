@@ -21,9 +21,10 @@
   margin: 0;
 }
 
-/* Locked content is greyed out; the lock badge below is exempted so it stays
- * crisp and yellow. */
-.members-only .members-only-card-body,
+/* Locked content is greyed out via the dimmed image + the lock badge. The text
+ * is NOT dimmed with opacity — dimming muted grey text below AA contrast fails
+ * the color-contrast audit; the "locked" cue comes from the image + lock badge
+ * and the text keeps accessible, full-strength colours (see desc/read-more). */
 .members-only .members-only-card-image {
   opacity: 0.65;
 }
@@ -67,7 +68,7 @@
   font-weight: 400;
   line-height: 21px;
   text-transform: uppercase;
-  color: rgb(105 105 105);
+  color: #595959; /* ~7:1 on white — passes WCAG AA (was #696969 dimmed to failing) */
 }
 
 /* Read More — disabled-looking grey pill (content is locked). */
@@ -76,7 +77,7 @@
   margin: 0;
   padding: 7px 14px;
   background-color: #ebebeb;
-  color: rgb(105 105 105);
+  color: #595959; /* ~5.9:1 on #ebebeb — passes WCAG AA */
   font-family: var(--body-font-family);
   font-size: 14px;
   font-weight: 400;
