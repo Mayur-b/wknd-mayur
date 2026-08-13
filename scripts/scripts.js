@@ -227,6 +227,51 @@ export function normalizeHeadingLevels(scope = document) {
 }
 
 /**
+ * Add a "Magazine › <article>" breadcrumb to the top of magazine article pages,
+ * matching the WKND source. Only runs on article detail pages (a page below the
+ * magazine listing, e.g. /us/en/magazine/arctic-surfing) — never on the listing
+ * itself. The trail is derived from the URL and the page's <h1>/title, so no
+ * authored content is needed. Idempotent.
+ * @param {Element} main The main element
+ */
+function buildBreadcrumb(main) {
+  // Only decorate the page's real, attached <main>. loadFragment() runs
+  // decorateMain() on detached <main>s for the header/footer fragments — skip
+  // those so the breadcrumb isn't duplicated into the nav/footer.
+  if (!main.isConnected || main !== document.querySelector('main')) return;
+  const path = window.location.pathname.replace(/^\/content(?=\/)/, '').replace(/\.html$/, '');
+  const match = path.match(/^(\/[a-z-]+\/[a-z-]+\/magazine)\/[^/]+$/i);
+  if (!match) return; // not a magazine article detail page
+  if (main.querySelector('.breadcrumb')) return;
+
+  const magazinePath = match[1];
+  const title = (main.querySelector('h1')?.textContent || document.title || '').trim();
+
+  const nav = document.createElement('nav');
+  nav.className = 'breadcrumb';
+  nav.setAttribute('aria-label', 'Breadcrumb');
+
+  const list = document.createElement('ol');
+  list.className = 'breadcrumb-list';
+
+  const parent = document.createElement('li');
+  parent.className = 'breadcrumb-item';
+  const parentLink = document.createElement('a');
+  parentLink.href = magazinePath;
+  parentLink.textContent = 'Magazine';
+  parent.append(parentLink);
+
+  const current = document.createElement('li');
+  current.className = 'breadcrumb-item breadcrumb-item-current';
+  current.setAttribute('aria-current', 'page');
+  current.textContent = title;
+
+  list.append(parent, current);
+  nav.append(list);
+  main.prepend(nav);
+}
+
+/**
  * Decorates the main element.
  * @param {Element} main The main element
  */
@@ -237,6 +282,7 @@ export function decorateMain(main) {
   decorateSections(main);
   decorateBlocks(main);
   decorateButtons(main);
+  buildBreadcrumb(main);
 }
 
 /**

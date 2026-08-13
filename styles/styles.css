@@ -352,3 +352,53 @@ main .section.dark {
 main .section.dark a:any-link {
   color: #fff;
 }
+
+/* Breadcrumb (magazine article pages) — injected by buildBreadcrumb in
+ * scripts.js. "Magazine › <article>" with a yellow chevron separator, matching
+ * the WKND source. Constrained to the page content width. */
+main > .breadcrumb {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px 24px 0;
+}
+
+main > .breadcrumb .breadcrumb-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+main > .breadcrumb .breadcrumb-item {
+  display: inline-block;
+  font-family: var(--body-font-family);
+  font-size: 14px;
+  line-height: 1.4;
+  text-transform: uppercase;
+  color: var(--text-color);
+}
+
+main > .breadcrumb .breadcrumb-item a:any-link {
+  color: var(--text-color);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+main > .breadcrumb .breadcrumb-item a:hover,
+main > .breadcrumb .breadcrumb-item a:focus-visible {
+  text-decoration: underline;
+  text-decoration-color: var(--accent-color);
+}
+
+/* Yellow chevron separator before every item after the first. */
+main > .breadcrumb .breadcrumb-item + .breadcrumb-item::before {
+  content: '\203A'; /* › */
+  margin: 0 8px;
+  color: var(--accent-color);
+  font-weight: 600;
+}
+
+@media (width >= 900px) {
+  main > .breadcrumb {
+    padding: 24px 32px 0;
+  }
+}
