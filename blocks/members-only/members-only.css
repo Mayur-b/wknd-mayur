@@ -102,10 +102,10 @@
   }
 }
 
-/* Desktop — four compact cards fit across the viewport at once. */
+/* Desktop — three cards across, giving the title and description more room. */
 @media (width >= 900px) {
   .members-only {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 32px 14px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 40px 24px;
   }
 }
