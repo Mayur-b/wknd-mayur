@@ -118,6 +118,41 @@ function buildMembersOnlyBlock(main) {
 }
 
 /**
+ * Auto-block the adventures listing hero. The listing authors its intro as flat
+ * default content: an <h1> page title, then a teaser (an <h2> + description <p>
+ * + a <p> holding the lead image). The original WKND renders that teaser as a
+ * hero with the text in a white panel cut out over the image bottom. Group the
+ * teaser trio into a `hero` block (image row + heading/description row) so it
+ * picks up the existing .hero-single cutout treatment. The <h1> page title is
+ * left in place above the hero. No-op on pages without this exact shape.
+ * @param {Element} main The container element
+ */
+function buildAdventuresHero(main) {
+  // Runs before decorateSections, so match the raw section <div> (not a
+  // .default-content-wrapper, which doesn't exist yet).
+  const h1 = main.querySelector('h1');
+  if (!h1) return;
+  const wrapper = h1.parentElement;
+  if (wrapper.querySelector('.hero')) return;
+
+  const heading = h1.nextElementSibling; // expected <h2>
+  if (!heading || !/^H[2-6]$/.test(heading.tagName)) return;
+  const desc = heading.nextElementSibling; // expected description <p>
+  if (!desc || desc.tagName !== 'P' || desc.querySelector('picture, img')) return;
+  const imageP = desc.nextElementSibling; // expected <p> wrapping the image
+  if (!imageP || !imageP.querySelector('picture, img')) return;
+
+  const picture = imageP.querySelector('picture') || imageP.querySelector('img');
+  // hero rows: [image] then [heading + description] → single-hero cutout.
+  const block = buildBlock('hero', [
+    [{ elems: [picture] }],
+    [{ elems: [heading, desc] }],
+  ]);
+  imageP.remove();
+  h1.after(block);
+}
+
+/**
  * Builds all synthetic blocks in a container element.
  * @param {Element} main The container element
  */
@@ -142,6 +177,7 @@ function buildAutoBlocks(main) {
     }
     buildWidgetAutoBlocks(main);
     buildMembersOnlyBlock(main);
+    buildAdventuresHero(main);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error('Auto Blocking failed', error);
