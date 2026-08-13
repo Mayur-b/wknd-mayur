@@ -73,6 +73,42 @@ footer .footer .section:nth-child(3) ul {
   font-weight: 600;
 }
 
+/* Follow Us social icons — bare white glyphs in a row (matches original WKND
+ * footer). Icons are injected inline by footer.js; each link becomes a >=24px
+ * tap target and turns accent-yellow on hover/focus. */
+footer .footer .footer-social-list {
+  gap: 18px;
+}
+
+footer .footer a.footer-social-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  min-height: 24px;
+  color: #fff;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+footer .footer a.footer-social-link:hover,
+footer .footer a.footer-social-link:focus-visible {
+  color: var(--accent-color);
+  text-decoration: none;
+}
+
+footer .footer .footer-social-icon {
+  display: inline-flex;
+  width: 20px;
+  height: 20px;
+}
+
+footer .footer .footer-social-icon svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
 /* copyright + disclaimer */
 footer .footer .section:nth-child(4) {
   color: rgb(255 255 255 / 70%);
