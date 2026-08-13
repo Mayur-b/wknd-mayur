@@ -139,8 +139,13 @@ function buildAdventuresHero(main) {
   if (!heading || !/^H[2-6]$/.test(heading.tagName)) return;
   const desc = heading.nextElementSibling; // expected description <p>
   if (!desc || desc.tagName !== 'P' || desc.querySelector('picture, img')) return;
-  const imageP = desc.nextElementSibling; // expected <p> wrapping the image
-  if (!imageP || !imageP.querySelector('picture, img')) return;
+  // Expected: a plain <p> whose ONLY child is the lead image. Requiring a bare
+  // image paragraph (not, say, a <div class="author"> that merely contains an
+  // image) keeps this from misfiring on the About page's profile cards, whose
+  // first card also follows an <h2> + description <p>.
+  const imageP = desc.nextElementSibling;
+  if (!imageP || imageP.tagName !== 'P' || imageP.children.length !== 1
+    || !imageP.querySelector('picture, img')) return;
 
   const picture = imageP.querySelector('picture') || imageP.querySelector('img');
   // hero rows: [image] then [heading + description] → single-hero cutout.
