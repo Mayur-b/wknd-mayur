@@ -19,6 +19,17 @@
   min-width: 0;
 }
 
+/* Adventure detail title — WKND signature accent-yellow underline (matches the
+ * section headings elsewhere on the site). The title is the default-content
+ * wrapper right after the hero. Base rule = applies at every viewport. */
+main .section.adventure > .hero-wrapper + .default-content-wrapper h1::after {
+  content: '';
+  display: block;
+  width: 84px;
+  margin-top: 12px;
+  border-bottom: 2px solid var(--accent-color);
+}
+
 .adventure-specs .adventure-specs-label {
   margin: 0;
   padding: 0;
