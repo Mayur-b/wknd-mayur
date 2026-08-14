@@ -10,10 +10,18 @@
 
 .tabs .tabs-list {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;                 /* keep the tabs on a single row */
   gap: 2px;
   margin: 0 0 24px;
-  padding: 0;
+  padding: 0 0 2px;
+  max-width: 100%;
+  overflow-x: auto;                  /* scroll rather than wrap if labels are long */
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;             /* hide the scrollbar (Firefox) */
+}
+
+.tabs .tabs-list::-webkit-scrollbar {
+  display: none;                     /* hide the scrollbar (WebKit) */
 }
 
 .tabs .tabs-list button.tabs-tab {
@@ -21,7 +29,7 @@
   margin: 0;
   border: 0;
   border-radius: 0;
-  padding: 8px 16px;
+  padding: 8px 14px;
   background-color: transparent;
   color: var(--text-color);
   font-family: var(--body-font-family);
@@ -30,6 +38,7 @@
   line-height: 1.5;
   letter-spacing: 0.5px;
   text-transform: uppercase;
+  white-space: nowrap;               /* never break a label across lines */
   cursor: pointer;
   transition: background-color 0.2s ease, color 0.2s ease;
 }
@@ -88,4 +97,13 @@
   font: inherit;
   color: inherit;
   text-transform: inherit;
+}
+
+/* Narrow phones: tighten the tab padding so the three trip-detail tabs fit on
+ * one line without horizontal scroll. */
+@media (width < 600px) {
+  .tabs .tabs-list button.tabs-tab {
+    padding: 8px 10px;
+    letter-spacing: 0.3px;
+  }
 }
