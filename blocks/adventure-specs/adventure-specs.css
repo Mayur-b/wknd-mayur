@@ -9,8 +9,8 @@
  * a single stacked column in the narrow left sidebar (see grid section below). */
 .adventure-specs .adventure-specs-list {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 20px 24px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px 16px;
   margin: 0;
   padding: 0;
 }
