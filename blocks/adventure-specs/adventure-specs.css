@@ -3,17 +3,38 @@
  * matching the WKND source. Laid out as a left sidebar on desktop by the
  * .adventure section grid (see below). */
 
+/* Each spec (label + value) is one item. Mobile: items flow into a compact
+ * multi-column grid so the sidebar doesn't dominate the small screen (matches
+ * the WKND source, which wraps the specs into rows). Desktop overrides this to
+ * a single stacked column in the narrow left sidebar (see grid section below). */
 .adventure-specs .adventure-specs-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px 16px;
   margin: 0;
   padding: 0;
 }
 
+.adventure-specs .adventure-specs-item {
+  min-width: 0;
+}
+
+/* Adventure detail title — WKND signature accent-yellow underline (matches the
+ * section headings elsewhere on the site). The title is the default-content
+ * wrapper right after the hero. Base rule = applies at every viewport. */
+main .section.adventure > .hero-wrapper + .default-content-wrapper h1::after {
+  content: '';
+  display: block;
+  width: 84px;
+  margin-top: 12px;
+  border-bottom: 2px solid var(--accent-color);
+}
+
 .adventure-specs .adventure-specs-label {
   margin: 0;
-  padding: 4px 0 4px 16px;
-  border-left: 4px solid var(--accent-color); /* WKND yellow accent bar */
+  padding: 0;
   font-family: var(--body-font-family);
-  font-size: var(--body-font-size-xs);
+  font-size: 12px;
   font-weight: 600;
   letter-spacing: 1px;
   text-transform: uppercase;
@@ -21,19 +42,14 @@
 }
 
 .adventure-specs .adventure-specs-value {
-  margin: 0 0 28px;
-  padding: 0 0 0 16px;
-  border-left: 4px solid var(--accent-color);
+  margin: 4px 0 0;
+  padding: 0;
   font-family: var(--body-font-family);
-  font-size: var(--body-font-size-s);
+  font-size: var(--body-font-size-xs);
   font-weight: 700;
   letter-spacing: 1px;
   text-transform: uppercase;
   color: var(--text-color);
-}
-
-.adventure-specs .adventure-specs-value:last-child {
-  margin-bottom: 0;
 }
 
 /* ============================================================
@@ -82,5 +98,26 @@
     grid-column: 2;
     grid-row: 3 / span 2;
     align-self: start;
+  }
+
+  /* Desktop specs: single stacked column with the yellow accent bar per item
+   * (the original sidebar design). Overrides the mobile compact grid above. */
+  .adventure-specs .adventure-specs-list {
+    display: block;
+  }
+
+  .adventure-specs .adventure-specs-item {
+    margin: 0 0 28px;
+    padding: 4px 0 4px 16px;
+    border-left: 4px solid var(--accent-color); /* WKND yellow accent bar */
+  }
+
+  .adventure-specs .adventure-specs-item:last-child {
+    margin-bottom: 0;
+  }
+
+  .adventure-specs .adventure-specs-value {
+    margin: 0;
+    font-size: var(--body-font-size-s);
   }
 }

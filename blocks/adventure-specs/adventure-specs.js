@@ -23,6 +23,11 @@ export default function decorate(block) {
     const value = (cells[1]?.textContent || '').trim();
     if (!label && !value) return;
 
+    // Group each label+value into one item so it can flow as a unit (each spec
+    // stays together when the list wraps into multiple columns on mobile).
+    const item = document.createElement('div');
+    item.className = 'adventure-specs-item';
+
     const dt = document.createElement('dt');
     dt.className = 'adventure-specs-label';
     dt.textContent = label;
@@ -36,7 +41,8 @@ export default function decorate(block) {
       dd.textContent = value;
     }
 
-    dl.append(dt, dd);
+    item.append(dt, dd);
+    dl.append(item);
   });
 
   block.textContent = '';
