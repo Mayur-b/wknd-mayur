@@ -1,9 +1,9 @@
 # Your Project's Title...
-Your project's description...
+A capstone project t o build a WKND-style website on Edge Delivery Services using Document Authoring. The aim was to understand and implement the key concepts: site migration with EMA, custom blocks, indexing-driven listing, redirects, and metadata.
 
 ## Environments
-- Preview: https://main--{repo}--{owner}.aem.page/
-- Live: https://main--{repo}--{owner}.aem.live/
+- Preview: https://main--wknd-mayur--mayur-b.aem.page/us/en
+- Live: https://main--wknd-mayur--mayur-b.aem.live/us/en
 
 ## Documentation
 
