@@ -35,7 +35,7 @@
 
 .article-list:not(.dynamic) .article-list-link {
   display: block;
-  border-left: 5px solid #ebebeb;   /* source --brandThird accent bar */
+  border-left: 5px solid var(--border-white);   /* source --brandThird accent bar */
   padding: 8px 16px;                /* source 0.5rem 1rem */
   color: var(--text-color);         /* #202020 */
   text-decoration: none;
@@ -61,7 +61,7 @@
   font-weight: 400;
   line-height: 18px;
   text-transform: uppercase;
-  color: #696969;                   /* source rgb(105,105,105) dimgray */
+  color: var(--grey-color);                   /* source rgb(105,105,105) dimgray */
 }
 
 /* ============================================================
@@ -120,7 +120,7 @@
   font-weight: 400;
   line-height: 21px;
   text-transform: uppercase;
-  color: #696969;                   /* source rgb(105,105,105) */
+  color: var(--grey-color);                   /* source rgb(105,105,105) */
 }
 
 /* ============================================================
@@ -243,7 +243,7 @@
   max-width: 100%;
   padding: 12px 20px;
   background-color: var(--dark-color);
-  color: #fff;
+  color: var(--white-color);
   font-family: var(--body-font-family);
   font-size: 18px;
   font-weight: 400;

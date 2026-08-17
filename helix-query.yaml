@@ -6,6 +6,8 @@ indices:
     include:
       - '/**'
     exclude:
+      - '/nav'
+      - '/footer'
       - '/drafts/**'
       - '/tools/**'
     target: /query-index.json

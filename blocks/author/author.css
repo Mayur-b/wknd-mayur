@@ -62,7 +62,7 @@
   line-height: 1.5;
   letter-spacing: 0.02em;
   text-transform: uppercase;                    /* source */
-  color: #696969;                               /* source byline rgb(105,105,105) */
+  color: var(--grey-color);                               /* source byline rgb(105,105,105) */
 }
 
 /* Social icons trail to the end of the byline row. */

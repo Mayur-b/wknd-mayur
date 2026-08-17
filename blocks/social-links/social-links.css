@@ -1,6 +1,6 @@
 /* social-links — WKND social icon tiles.
    Values extracted from wknd.site computed styles (.cmp-buildingblock--btn-list):
-   48x48 tiles, #202020 background, #ebebeb glyph, border-radius 0 (SQUARE),
+   48x48 tiles, #202020 background, var(--border-white) glyph, border-radius 0 (SQUARE),
    flush (gap 0), centered beneath author profiles. Source has no hover state
    change; an on-brand accent-yellow hover is added for affordance. */
 
@@ -29,7 +29,7 @@
   width: 48px;                                    /* source */
   height: 48px;                                   /* source */
   background-color: var(--dark-color, #202020);   /* source --brandSecondary #202020 */
-  color: #ebebeb;                                 /* source --textColorInverse */
+  color: var(--border-white);                                 /* source --textColorInverse */
   border: 0;                                      /* source: 0px none */
   border-radius: 0;                               /* source: 0px (square, not circular) */
   text-decoration: none;

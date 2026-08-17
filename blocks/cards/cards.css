@@ -33,7 +33,7 @@
 .cards-filter-pill:hover,
 .cards-filter-pill:focus-visible {
   background: var(--text-color);
-  color: #fff;
+  color: var(--white-color);  /* #fff */
 }
 
 .cards-filter-pill.is-active {
@@ -85,7 +85,7 @@
 
 .cards .cards-card-body p {
   margin: 9px 0 0;              /* source gap image -> title */
-  color: rgb(105 105 105);     /* description grey #696969 */
+  color: var(--grey-color);     /* description grey #696969 */
   font-family: var(--body-font-family);
   font-size: 14px;
   font-weight: 400;
