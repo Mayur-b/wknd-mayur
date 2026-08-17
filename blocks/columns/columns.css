@@ -47,14 +47,14 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  background-color: #ebebeb;
+  background-color: var(--border-white);
   padding: 32px 24px;
 }
 
 /* description copy (base for all paragraphs in the text panel) */
 .columns.columns-featured .columns-text-col > p {
   margin: 0;
-  color: #202020;
+  color: var(--grey-color);                   /* source rgb(105,105,105) */
   font-family: var(--body-font-family);
   font-size: 14px;
   font-weight: 400;
@@ -74,7 +74,7 @@
 .columns.columns-featured .columns-text-col h2,
 .columns.columns-featured .columns-text-col h3 {
   margin: 18px 0;
-  color: #202020;
+  color: var(--text-color);
   font-family: var(--heading-font-family);
   font-size: 36px;
   font-weight: 400;

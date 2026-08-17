@@ -42,6 +42,15 @@
 
   /* nav height */
   --nav-height: 87px;
+
+  /* border css */
+  --border-white: #ebebeb;
+
+  /* custom css */
+  --white-color: #fff;
+  --black-color: #000;
+  --grey-color: #696969;
+
 }
 
 /* fallback fonts (reduce CLS while web fonts load) */
@@ -245,7 +254,7 @@ button.button.secondary:hover,
 button.button.secondary:focus-visible {
   border-color: var(--text-color);
   background-color: var(--text-color);
-  color: var(--background-color);
+  color: var(--white-color);
 }
 
 /* accessible focus ring for keyboard users */
@@ -273,7 +282,7 @@ a.button.accent,
 button.button.accent {
   border-color: var(--link-color);
   background-color: var(--link-color);
-  color: var(--background-color);
+  color: var(--white-color);
 }
 
 a.button.accent:hover,

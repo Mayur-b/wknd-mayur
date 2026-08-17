@@ -38,7 +38,7 @@ main .section.adventure > .hero-wrapper + .default-content-wrapper h1::after {
   font-weight: 600;
   letter-spacing: 1px;
   text-transform: uppercase;
-  color: #6a6a6a;
+  color: var(--grey-color);
 }
 
 .adventure-specs .adventure-specs-value {

@@ -1,6 +1,6 @@
 footer {
   background-color: var(--dark-color);
-  color: #fff;
+  color: var(--white-color);
   font-size: var(--body-font-size-xs);
 }
 
@@ -15,7 +15,7 @@ footer .footer p {
 }
 
 footer .footer a:any-link {
-  color: #fff;
+  color: var(--white-color);
   text-decoration: none;
 }
 
@@ -86,7 +86,7 @@ footer .footer a.footer-social-link {
   justify-content: center;
   min-width: 24px;
   min-height: 24px;
-  color: #fff;
+  color: var(--white-color);
   text-decoration: none;
   transition: color 0.2s ease;
 }
@@ -117,7 +117,7 @@ footer .footer .section:nth-child(4) {
 footer .footer .section:nth-child(4) p:first-child {
   margin-bottom: 10px;
   font-weight: 600;
-  color: #fff;
+  color: var(--white-color);
 }
 
 /* Desktop: top row is horizontal — logo + nav left, Follow Us right;

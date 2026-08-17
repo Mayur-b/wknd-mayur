@@ -10,7 +10,7 @@
  */
 
 .accordion .accordion-item {
-  border-bottom: 2px solid #ebebeb; /* source separator (--brandThird) */
+  border-bottom: 2px solid var(--border-white); /* source separator (--brandThird) */
 }
 
 /* Question row — full-width clickable toggle. */
