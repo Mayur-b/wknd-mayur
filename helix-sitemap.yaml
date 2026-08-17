@@ -7,4 +7,8 @@ sitemaps:
   default:
     source: /query-index.json
     destination: /sitemap.xml
+    # Absolute host for the <loc> URLs. Required here: the project has no
+    # cdn.prod.host configured, so without an explicit origin the host resolves
+    # to "undefined" (https://undefined/...). Must include the protocol.
+    origin: https://main--wknd-mayur--mayur-b.aem.live
     lastmod: YYYY-MM-DD
